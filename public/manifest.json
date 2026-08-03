@@ -1,0 +1,21 @@
+﻿{
+  "name": "FCMS - Football Club Management System",
+  "short_name": "FCMS",
+  "description": "Professional football live score and update and real team management system.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#0a0c10",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
