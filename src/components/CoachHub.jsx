@@ -405,13 +405,13 @@ export default function CoachHub({ currentUser }) {
         <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
           
           {/* Top Row: Scheduler Form and Live/Upcoming Matches */}
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '2rem'}}>
+          <div className="coach-schedule-grid">
             <div className="card admin-card">
               <h2 style={{fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                 <Plus size={20} className="text-accent" /> Schedule New Match
               </h2>
               <form onSubmit={handleScheduleMatch} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                  <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                  <div className="coach-form-grid">
                     <div>
                       <label style={labelStyle}>Opponent Team Name</label>
                       <input type="text" required value={matchForm.opponent} onChange={e => setMatchForm({...matchForm, opponent: e.target.value})} style={inputStyle} placeholder="e.g. Local City FC" />
@@ -421,7 +421,7 @@ export default function CoachHub({ currentUser }) {
                       <input type="text" required value={matchForm.opponentId} onChange={e => setMatchForm({...matchForm, opponentId: e.target.value.toUpperCase()})} style={inputStyle} placeholder="e.g. CITY1234" maxLength={8} />
                     </div>
                   </div>
-                <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                <div className="coach-form-grid">
                   <div>
                     <label style={labelStyle}>Date</label>
                     <input type="date" required value={matchForm.date} onChange={e => setMatchForm({...matchForm, date: e.target.value})} style={inputStyle} />

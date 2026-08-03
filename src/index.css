@@ -455,3 +455,44 @@ ul {
   }
 }
 
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.admin-grid .span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .admin-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .admin-grid > div {
+    grid-column: span 1 !important;
+  }
+}
+.coach-schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+}
+
+.coach-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .coach-schedule-grid, .coach-form-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+}

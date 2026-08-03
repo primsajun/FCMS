@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import { Settings, Save, AlertCircle, CheckCircle2, Activity, Trash2, FolderOpen, Radio } from 'lucide-react';
 import { PREDEFINED_TEAMS } from './predefinedTeams';
@@ -289,8 +289,8 @@ export default function AdminDashboard() {
           <p className="text-muted">Command center for manual data overrides.</p>
         </div>
 
-        <div className="admin-grid" style={{gridTemplateColumns: '1fr 1fr', maxWidth: '800px', margin: '0 auto', gap: '2rem'}}>
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 2', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)'}} onClick={() => setActiveView('live_matches')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+        <div className="admin-grid">
+          <div className="admin-card span-2" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)'}} onClick={() => setActiveView('live_matches')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#ef4444'}}>
               <div style={{width: '12px', height: '12px', backgroundColor: '#ef4444', borderRadius: '50%', animation: 'pulse 2s infinite'}}></div>
               Live Local Matches
@@ -308,12 +308,12 @@ export default function AdminDashboard() {
             <p className="text-muted" style={{fontSize: '0.9rem'}}>Update live scores and match time manually.</p>
           </div>
 
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 1'}} onClick={() => setActiveView('scheduler')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease'}} onClick={() => setActiveView('scheduler')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem'}}>Match Scheduler</h2>
             <p className="text-muted" style={{fontSize: '0.9rem'}}>Schedule upcoming matches to display on the Fixtures page.</p>
           </div>
 
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 1', position: 'relative'}} onClick={() => setActiveView('coaches')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', position: 'relative'}} onClick={() => setActiveView('coaches')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             {pendingCoaches.length > 0 && (
               <div style={{position: 'absolute', top: '-10px', right: '-10px', backgroundColor: 'var(--accent-primary)', color: '#000', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'}}>
                 {pendingCoaches.length}
@@ -323,17 +323,17 @@ export default function AdminDashboard() {
             <p className="text-muted" style={{fontSize: '0.9rem'}}>Review and approve newly registered coaches.</p>
           </div>
 
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 1'}} onClick={() => setActiveView('teams')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease'}} onClick={() => setActiveView('teams')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem'}}><FolderOpen size={24} style={{display: 'inline', verticalAlign: 'middle', marginRight: '0.5rem'}}/> Team Directory</h2>
             <p className="text-muted" style={{fontSize: '0.9rem'}}>View all registered teams, rosters, and match schedules.</p>
           </div>
 
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 1'}} onClick={() => setActiveView('history')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease'}} onClick={() => setActiveView('history')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem'}}><Activity size={24} style={{display: 'inline', verticalAlign: 'middle', marginRight: '0.5rem'}}/> Update History</h2>
             <p className="text-muted" style={{fontSize: '0.9rem'}}>View and manage all coach activity logs globally.</p>
           </div>
 
-          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', gridColumn: 'span 1'}} onClick={() => setActiveView('playerStats')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+          <div className="admin-card" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', }} onClick={() => setActiveView('playerStats')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem'}}><Activity size={24} style={{display: 'inline', verticalAlign: 'middle', marginRight: '0.5rem'}}/> Player Stats</h2>
             <p className="text-muted" style={{fontSize: '0.9rem'}}>Manage top scorers and assists for the Home page.</p>
           </div>
