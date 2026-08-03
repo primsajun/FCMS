@@ -274,7 +274,7 @@ export default function CoachHub({ currentUser }) {
       </div>
       
       {/* Tab Navigation */}
-      <div style={{display: 'flex', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem'}}>
         <button 
           onClick={() => setActiveTab('approvals')} 
           className={`btn ${activeTab === 'approvals' ? 'btn-primary' : 'btn-outline'}`}
