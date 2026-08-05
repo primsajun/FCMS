@@ -1,4 +1,4 @@
-﻿export const PREDEFINED_TEAMS = [
+export const PREDEFINED_TEAMS = [
   // Premier League (39) - Custom 20 Teams requested by User
   { league_id: 39, api_team_id: 35, team_name: 'Bournemouth', team_logo: 'https://media.api-sports.io/football/teams/35.png' },
   { league_id: 39, api_team_id: 42, team_name: 'Arsenal', team_logo: 'https://media.api-sports.io/football/teams/42.png' },
@@ -6,19 +6,19 @@
   { league_id: 39, api_team_id: 55, team_name: 'Brentford', team_logo: 'https://media.api-sports.io/football/teams/55.png' },
   { league_id: 39, api_team_id: 51, team_name: 'Brighton', team_logo: 'https://media.api-sports.io/football/teams/51.png' },
   { league_id: 39, api_team_id: 49, team_name: 'Chelsea', team_logo: 'https://media.api-sports.io/football/teams/49.png' },
-  { league_id: 39, api_team_id: 74, team_name: 'Coventry', team_logo: 'https://media.api-sports.io/football/teams/74.png' },
+  { league_id: 39, api_team_id: 1346, team_name: 'Coventry', team_logo: 'https://media.api-sports.io/football/teams/1346.png' },
   { league_id: 39, api_team_id: 52, team_name: 'Crystal Palace', team_logo: 'https://media.api-sports.io/football/teams/52.png' },
   { league_id: 39, api_team_id: 45, team_name: 'Everton', team_logo: 'https://media.api-sports.io/football/teams/45.png' },
   { league_id: 39, api_team_id: 36, team_name: 'Fulham', team_logo: 'https://media.api-sports.io/football/teams/36.png' },
-  { league_id: 39, api_team_id: 67, team_name: 'Hull', team_logo: 'https://media.api-sports.io/football/teams/67.png' },
-  { league_id: 39, api_team_id: 62, team_name: 'Ipswich Town', team_logo: 'https://media.api-sports.io/football/teams/62.png' },
+  { league_id: 39, api_team_id: 64, team_name: 'Hull', team_logo: 'https://media.api-sports.io/football/teams/64.png' },
+  { league_id: 39, api_team_id: 57, team_name: 'Ipswich Town', team_logo: 'https://media.api-sports.io/football/teams/57.png' },
   { league_id: 39, api_team_id: 63, team_name: 'Leeds', team_logo: 'https://media.api-sports.io/football/teams/63.png' },
   { league_id: 39, api_team_id: 40, team_name: 'Liverpool', team_logo: 'https://media.api-sports.io/football/teams/40.png' },
   { league_id: 39, api_team_id: 50, team_name: 'Man City', team_logo: 'https://media.api-sports.io/football/teams/50.png' },
   { league_id: 39, api_team_id: 33, team_name: 'Man United', team_logo: 'https://media.api-sports.io/football/teams/33.png' },
   { league_id: 39, api_team_id: 34, team_name: 'Newcastle', team_logo: 'https://media.api-sports.io/football/teams/34.png' },
   { league_id: 39, api_team_id: 65, team_name: 'Nottm Forest', team_logo: 'https://media.api-sports.io/football/teams/65.png' },
-  { league_id: 39, api_team_id: 71, team_name: 'Sunderland', team_logo: 'https://media.api-sports.io/football/teams/71.png' },
+  { league_id: 39, api_team_id: 746, team_name: 'Sunderland', team_logo: 'https://media.api-sports.io/football/teams/746.png' },
   { league_id: 39, api_team_id: 47, team_name: 'Spurs', team_logo: 'https://media.api-sports.io/football/teams/47.png' },
 
   // La Liga (140) - Sample Top Teams
