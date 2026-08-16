@@ -498,7 +498,7 @@ function Fixtures({ onMatchClick, fixturesData, isLoadingFixtures }) {
             </div>
             <div className="league-group-info">
               <span className="league-group-name">{league.name}</span>
-              <span className="league-group-matchday">SUPABASE DATA</span>
+              <span className="league-group-matchday">MATCHES</span>
             </div>
           </div>
 
