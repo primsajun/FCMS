@@ -77,6 +77,22 @@ export const PREDEFINED_TEAMS = [
   { league_id: 2, api_team_id: 91, team_name: 'Monaco', team_logo: 'https://media.api-sports.io/football/teams/91.png' },
   { league_id: 2, api_team_id: 79, team_name: 'Lille', team_logo: 'https://media.api-sports.io/football/teams/79.png' },
 
+  // --- NEW TEAMS 2026 ---
+  { league_id: 39, api_team_id: 73, team_name: 'Spurs', team_logo: 'https://crests.football-data.org/73.png' },
+  { league_id: 39, api_team_id: 322, team_name: 'Hull', team_logo: 'https://crests.football-data.org/322.png' },
+  { league_id: 39, api_team_id: 341, team_name: 'Leeds', team_logo: 'https://crests.football-data.org/341.png' },
+  { league_id: 39, api_team_id: 351, team_name: 'Nottm Forest', team_logo: 'https://crests.football-data.org/351.png' },
+  { league_id: 39, api_team_id: 397, team_name: 'Brighton', team_logo: 'https://crests.football-data.org/397.png' },
+  { league_id: 39, api_team_id: 1076, team_name: 'Coventry', team_logo: 'https://crests.football-data.org/1076.png' },
+  { league_id: 140, api_team_id: 81, team_name: 'Barcelona', team_logo: 'https://crests.football-data.org/81.png' },
+  { league_id: 140, api_team_id: 84, team_name: 'Malaga', team_logo: 'https://crests.football-data.org/84.png' },
+  { league_id: 140, api_team_id: 88, team_name: 'Levante', team_logo: 'https://crests.football-data.org/88.png' },
+  { league_id: 140, api_team_id: 263, team_name: 'Alaves', team_logo: 'https://crests.football-data.org/263.png' },
+  { league_id: 140, api_team_id: 285, team_name: 'Elche', team_logo: 'https://crests.football-data.org/285.png' },
+  { league_id: 140, api_team_id: 559, team_name: 'Sevilla', team_logo: 'https://crests.football-data.org/559.png' },
+  { league_id: 140, api_team_id: 560, team_name: 'Deportivo La Coruna', team_logo: 'https://crests.football-data.org/560.png' },
+  { league_id: 140, api_team_id: 5335, team_name: 'Racing Santander', team_logo: 'https://crests.football-data.org/5335.png' },
+
   // --- NEW LEAGUES EXTENSION ---
   // Bundesliga
   { league_id: 78, api_team_id: 1, team_name: '1. FC Köln', team_logo: 'https://crests.football-data.org/1.png' },
