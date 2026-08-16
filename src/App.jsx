@@ -417,8 +417,6 @@ function LiveMatches({ onMatchClick, liveMatches, isLoadingLive }) {
             <div className="match-events empty-events" style={{justifyContent: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem'}}>
               <span className="text-muted" style={{fontSize: '0.75rem'}}>Powered by Supabase</span>
             </div>
-
-            <button className="btn btn-primary view-details-btn" onClick={() => onMatchClick('madrid_v_city')}>View Details</button>
           </div>
         ))}
       </div>
