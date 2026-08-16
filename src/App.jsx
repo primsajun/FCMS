@@ -1330,6 +1330,9 @@ function App() {
             if (row.league_id === 39) { leagueName = 'Premier League'; leagueLogo = 'https://media.api-sports.io/football/leagues/39.png'; }
             if (row.league_id === 140) { leagueName = 'La Liga'; leagueLogo = 'https://media.api-sports.io/football/leagues/140.png'; }
             if (row.league_id === 2) { leagueName = 'Champions League'; leagueLogo = 'https://media.api-sports.io/football/leagues/2.png'; }
+            if (row.league_id === 78) { leagueName = 'Bundesliga'; leagueLogo = 'https://media.api-sports.io/football/leagues/78.png'; }
+            if (row.league_id === 135) { leagueName = 'Serie A'; leagueLogo = 'https://media.api-sports.io/football/leagues/135.png'; }
+            if (row.league_id === 61) { leagueName = 'Ligue 1'; leagueLogo = 'https://media.api-sports.io/football/leagues/61.png'; }
 
             return {
               league: { id: row.league_id, name: leagueName, logo: leagueLogo },
