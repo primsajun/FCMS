@@ -143,11 +143,13 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
       return <div className="text-muted" style={{padding: '1rem'}}>Loading fixtures...</div>;
     }
 
-      if (!fixturesData || fixturesData.length === 0) {
+      const upcomingFixtures = fixturesData ? fixturesData.filter(f => !f.goals || f.goals.home === null) : [];
+
+      if (upcomingFixtures.length === 0) {
         return <div className="text-muted" style={{padding: '1rem'}}>No upcoming fixtures.</div>;
       }
 
-    const displayFixtures = fixturesData.slice(0, 3);
+    const displayFixtures = upcomingFixtures.slice(0, 3);
 
     return (
       <div className="fixtures-list">
@@ -447,9 +449,12 @@ function Fixtures({ onMatchClick, fixturesData, isLoadingFixtures }) {
   const groupedFixtures = React.useMemo(() => {
     if (!fixturesData) return {};
 
+    // Filter out completed matches (only show upcoming)
+    const upcomingFixtures = fixturesData.filter(f => !f.goals || f.goals.home === null);
+
     const filteredFixtures = activeLeague === 'all' 
-      ? fixturesData 
-      : fixturesData.filter(f => f.league.id === activeLeague);
+      ? upcomingFixtures 
+      : upcomingFixtures.filter(f => f.league.id === activeLeague);
 
     return filteredFixtures.reduce((acc, fixture) => {
       const leagueId = fixture.league.id;
@@ -552,6 +557,135 @@ function Fixtures({ onMatchClick, fixturesData, isLoadingFixtures }) {
 
       {renderLeagueGroups()}
 
+    </div>
+  );
+}
+
+// --- HISTORY COMPONENT ---
+function History({ fixturesData, isLoadingFixtures }) {
+  const [activeLeague, setActiveLeague] = useState('all');
+  
+  const groupedFixtures = React.useMemo(() => {
+    if (!fixturesData) return {};
+
+    // Filter to ONLY completed matches
+    const completedFixtures = fixturesData.filter(f => f.goals && f.goals.home !== null);
+    
+    const filteredFixtures = activeLeague === 'all' 
+      ? completedFixtures 
+      : completedFixtures.filter(f => f.league.id === activeLeague);
+
+    return filteredFixtures.reduce((acc, fixture) => {
+      const leagueId = fixture.league.id;
+      if (!acc[leagueId]) {
+        acc[leagueId] = {
+          name: fixture.league.name,
+          logo: fixture.league.logo,
+          matches: []
+        };
+      }
+      acc[leagueId].matches.push(fixture);
+      return acc;
+    }, {});
+  }, [fixturesData, activeLeague]);
+
+  const renderLeagueGroups = () => {
+    if (isLoadingFixtures) {
+      return (
+        <div className="empty-state-message" style={{padding: '3rem', textAlign: 'center', color: 'var(--text-muted)'}}>
+           Loading history...
+        </div>
+      );
+    }
+
+    const leagueIds = Object.keys(groupedFixtures);
+    if (leagueIds.length === 0) {
+      return (
+        <div className="empty-state-message" style={{padding: '3rem', textAlign: 'center', color: 'var(--text-muted)'}}>
+           No completed matches found in the selected leagues.
+        </div>
+      );
+    }
+
+    return leagueIds.map(leagueId => {
+      const league = groupedFixtures[leagueId];
+      // Sort matches by date descending (most recent first)
+      const sortedMatches = [...league.matches].sort((a,b) => new Date(b.fixture.date) - new Date(a.fixture.date));
+      
+      return (
+        <div key={leagueId} className="league-group">
+          <div className="league-group-header">
+            <div className="league-group-logo">
+               <div className="tiny-logo" style={{backgroundImage: `url(${league.logo})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#fff'}}></div>
+            </div>
+            <div className="league-group-info">
+              <span className="league-group-name">{league.name}</span>
+              <span className="league-group-matchday">COMPLETED MATCHES</span>
+            </div>
+          </div>
+
+          <div className="fixture-cards-grid">
+            {sortedMatches.map(fixture => {
+              const dateObj = new Date(fixture.fixture.date);
+              const dateStr = dateObj.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+              
+              const homeWinner = fixture.goals.home > fixture.goals.away;
+              const awayWinner = fixture.goals.away > fixture.goals.home;
+              
+              return (
+                <div key={fixture.fixture.id} className="card match-card" style={{ borderColor: 'rgba(255,255,255,0.1)', padding: '1rem' }}>
+                  <div className="flex justify-between items-center" style={{marginBottom: '1rem'}}>
+                    <span className="match-league" style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)'}}>
+                      {dateStr}
+                    </span>
+                    <span style={{fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)', backgroundColor: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px'}}>
+                      FT
+                    </span>
+                  </div>
+                  <div className="match-teams">
+                    <div className="match-team">
+                      <div className="team-info">
+                        <div className="team-logo" style={{backgroundImage: `url(${fixture.teams.home.logo})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#fff'}}></div>
+                        <span style={{fontWeight: homeWinner ? 'bold' : 'normal'}}>{fixture.teams.home.name}</span>
+                      </div>
+                      <span className={`score ${homeWinner ? 'score-win' : ''}`}>{fixture.goals.home}</span>
+                    </div>
+                    <div className="match-team">
+                      <div className="team-info">
+                        <div className="team-logo" style={{backgroundImage: `url(${fixture.teams.away.logo})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#fff'}}></div>
+                        <span style={{fontWeight: awayWinner ? 'bold' : 'normal'}}>{fixture.teams.away.name}</span>
+                      </div>
+                      <span className={`score ${awayWinner ? 'score-win' : ''}`}>{fixture.goals.away}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <div className="fixtures-page">
+      <div className="fixtures-header">
+        <div className="fixtures-header-left">
+          <h1 className="live-title">Match History</h1>
+          <p className="text-muted">Completed Matches & Results</p>
+        </div>
+      </div>
+      
+      <div className="league-filters">
+        <button className={`filter-pill ${activeLeague === 'all' ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague('all')}>ALL LEAGUES</button>
+        <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>PREMIER LEAGUE</button>
+        <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>LA LIGA</button>
+        <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>CHAMPIONS LEAGUE</button>
+      </div>
+
+      <div className="fixtures-container">
+        {renderLeagueGroups()}
+      </div>
     </div>
   );
 }
@@ -1174,14 +1308,14 @@ function App() {
               league: { id: row.league_id, name: leagueName, logo: leagueLogo },
               fixture: { 
                 id: row.id, 
-                date: `${row.match_date}T${row.match_time}`, 
-                status: { short: 'NS' } 
+                date: `${row.match_date}T${row.match_time}Z`, 
+                status: { short: row.home_goals !== null ? 'FT' : 'NS' } 
               },
               teams: {
                 home: { name: row.home_team_name, logo: row.home_team_logo },
                 away: { name: row.away_team_name, logo: row.away_team_logo }
               },
-              goals: { home: null, away: null }
+              goals: { home: row.home_goals, away: row.away_goals }
             };
           });
           setFixturesData(transformed);
@@ -1197,7 +1331,7 @@ function App() {
     const fetchPlayerStats = async () => {
       try {
         const { data, error } = await supabase
-          .from('league_player_stats')
+          .from('player_stats')
           .select('*')
           .order('stat_value', { ascending: false });
         if (error) throw error;
@@ -1223,7 +1357,7 @@ function App() {
         console.log('Realtime fixture update received!', payload);
         fetchFixtures();
       })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'league_player_stats' }, payload => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'player_stats' }, payload => {
         console.log('Realtime player stats update received!', payload);
         fetchPlayerStats();
       })
@@ -1273,6 +1407,7 @@ function App() {
               <button onClick={() => setCurrentPage('home')} className={`nav-link ${currentPage === 'home' ? 'active-underline' : ''}`}>Home</button>
               <button onClick={() => setCurrentPage('live')} className={`nav-link ${currentPage === 'live' ? 'active-underline' : ''}`}>Live</button>
               <button onClick={() => setCurrentPage('fixtures')} className={`nav-link ${currentPage === 'fixtures' ? 'active-underline' : ''}`}>Fixtures</button>
+              <button onClick={() => setCurrentPage('history')} className={`nav-link ${currentPage === 'history' ? 'active-underline' : ''}`}>History</button>
               <button onClick={() => setCurrentPage('tables')} className={`nav-link ${currentPage === 'tables' ? 'active-underline' : ''}`}>Tables</button>
               <button onClick={() => { setSelectedTeamId(null); setCurrentPage('teams'); }} className={`nav-link ${currentPage === 'teams' || currentPage === 'team_details' ? 'active-underline' : ''}`}>Teams</button>
               
@@ -1338,6 +1473,12 @@ function App() {
         {currentPage === 'fixtures' && (
           <Fixtures 
             onMatchClick={handleMatchClick} 
+            fixturesData={fixturesData}
+            isLoadingFixtures={isLoadingFixtures}
+          />
+        )}
+        {currentPage === 'history' && (
+          <History 
             fixturesData={fixturesData}
             isLoadingFixtures={isLoadingFixtures}
           />
