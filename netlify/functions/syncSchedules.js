@@ -123,8 +123,8 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
   }
 }
 
+let supabase;
 export const handler = async (event, context) => {
-  let supabase;
   try {
     if (!SUPABASE_URL || !SUPABASE_KEY) {
       return { statusCode: 500, body: JSON.stringify({ error: "Missing Supabase env vars" }) };
