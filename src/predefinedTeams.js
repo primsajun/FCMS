@@ -31,17 +31,12 @@ export const PREDEFINED_TEAMS = [
   { league_id: 140, api_team_id: 536, team_name: 'Sevilla', team_logo: 'https://media.api-sports.io/football/teams/536.png' },
   { league_id: 140, api_team_id: 532, team_name: 'Valencia', team_logo: 'https://media.api-sports.io/football/teams/532.png' },
   { league_id: 140, api_team_id: 533, team_name: 'Villarreal', team_logo: 'https://media.api-sports.io/football/teams/533.png' },
-  { league_id: 140, api_team_id: 547, team_name: 'Girona', team_logo: 'https://media.api-sports.io/football/teams/547.png' },
   { league_id: 140, api_team_id: 512, team_name: 'Alaves', team_logo: 'https://media.api-sports.io/football/teams/512.png' },
   { league_id: 140, api_team_id: 538, team_name: 'Celta Vigo', team_logo: 'https://media.api-sports.io/football/teams/538.png' },
   { league_id: 140, api_team_id: 540, team_name: 'Espanyol', team_logo: 'https://media.api-sports.io/football/teams/540.png' },
   { league_id: 140, api_team_id: 546, team_name: 'Getafe', team_logo: 'https://media.api-sports.io/football/teams/546.png' },
-  { league_id: 140, api_team_id: 534, team_name: 'Las Palmas', team_logo: 'https://media.api-sports.io/football/teams/534.png' },
-  { league_id: 140, api_team_id: 539, team_name: 'Leganes', team_logo: 'https://media.api-sports.io/football/teams/539.png' },
-  { league_id: 140, api_team_id: 798, team_name: 'Mallorca', team_logo: 'https://media.api-sports.io/football/teams/536.png' },
   { league_id: 140, api_team_id: 799, team_name: 'Osasuna', team_logo: 'https://media.api-sports.io/football/teams/529.png' },
   { league_id: 140, api_team_id: 720, team_name: 'Rayo Vallecano', team_logo: 'https://media.api-sports.io/football/teams/720.png' },
-  { league_id: 140, api_team_id: 728, team_name: 'Valladolid', team_logo: 'https://media.api-sports.io/football/teams/728.png' },
 
   // Champions League (2) - Sample Top Teams
   { league_id: 2, api_team_id: 157, team_name: 'Bayern Munich', team_logo: 'https://media.api-sports.io/football/teams/157.png' },
@@ -77,22 +72,13 @@ export const PREDEFINED_TEAMS = [
   { league_id: 2, api_team_id: 91, team_name: 'Monaco', team_logo: 'https://media.api-sports.io/football/teams/91.png' },
   { league_id: 2, api_team_id: 79, team_name: 'Lille', team_logo: 'https://media.api-sports.io/football/teams/79.png' },
 
+  
   // --- NEW TEAMS 2026 ---
-  { league_id: 39, api_team_id: 73, team_name: 'Spurs', team_logo: 'https://crests.football-data.org/73.png' },
-  { league_id: 39, api_team_id: 322, team_name: 'Hull', team_logo: 'https://crests.football-data.org/322.png' },
-  { league_id: 39, api_team_id: 341, team_name: 'Leeds', team_logo: 'https://crests.football-data.org/341.png' },
-  { league_id: 39, api_team_id: 351, team_name: 'Nottm Forest', team_logo: 'https://crests.football-data.org/351.png' },
-  { league_id: 39, api_team_id: 397, team_name: 'Brighton', team_logo: 'https://crests.football-data.org/397.png' },
-  { league_id: 39, api_team_id: 1076, team_name: 'Coventry', team_logo: 'https://crests.football-data.org/1076.png' },
-  { league_id: 140, api_team_id: 81, team_name: 'Barcelona', team_logo: 'https://crests.football-data.org/81.png' },
   { league_id: 140, api_team_id: 84, team_name: 'Malaga', team_logo: 'https://crests.football-data.org/84.png' },
   { league_id: 140, api_team_id: 88, team_name: 'Levante', team_logo: 'https://crests.football-data.org/88.png' },
-  { league_id: 140, api_team_id: 263, team_name: 'Alaves', team_logo: 'https://crests.football-data.org/263.png' },
   { league_id: 140, api_team_id: 285, team_name: 'Elche', team_logo: 'https://crests.football-data.org/285.png' },
-  { league_id: 140, api_team_id: 559, team_name: 'Sevilla', team_logo: 'https://crests.football-data.org/559.png' },
   { league_id: 140, api_team_id: 560, team_name: 'Deportivo La Coruna', team_logo: 'https://crests.football-data.org/560.png' },
   { league_id: 140, api_team_id: 5335, team_name: 'Racing Santander', team_logo: 'https://crests.football-data.org/5335.png' },
-
   // --- NEW LEAGUES EXTENSION ---
   // Bundesliga
   { league_id: 78, api_team_id: 1, team_name: '1. FC Köln', team_logo: 'https://crests.football-data.org/1.png' },
@@ -112,11 +98,8 @@ export const PREDEFINED_TEAMS = [
   { league_id: 78, api_team_id: 28, team_name: '1. FC Union Berlin', team_logo: 'https://crests.football-data.org/28.png' },
   { league_id: 78, api_team_id: 29, team_name: 'SC Paderborn 07', team_logo: 'https://crests.football-data.org/29.png' },
   { league_id: 78, api_team_id: 719, team_name: 'SV 07 Elversberg', team_logo: 'https://crests.football-data.org/719.png' },
-  { league_id: 78, api_team_id: 721, team_name: 'RB Leipzig', team_logo: 'https://crests.football-data.org/721.png' },
   // Serie A
-  { league_id: 135, api_team_id: 98, team_name: 'AC Milan', team_logo: 'https://crests.football-data.org/98.png' },
   { league_id: 135, api_team_id: 99, team_name: 'ACF Fiorentina', team_logo: 'https://crests.football-data.org/99.png' },
-  { league_id: 135, api_team_id: 100, team_name: 'AS Roma', team_logo: 'https://crests.football-data.org/100.png' },
   { league_id: 135, api_team_id: 102, team_name: 'Atalanta BC', team_logo: 'https://crests.football-data.org/102.png' },
   { league_id: 135, api_team_id: 103, team_name: 'Bologna FC 1909', team_logo: 'https://crests.football-data.org/103.png' },
   { league_id: 135, api_team_id: 104, team_name: 'Cagliari Calcio', team_logo: 'https://crests.football-data.org/104.png' },
@@ -153,5 +136,4 @@ export const PREDEFINED_TEAMS = [
   { league_id: 61, api_team_id: 548, team_name: 'AS Monaco FC', team_logo: 'https://crests.football-data.org/548.png' },
   { league_id: 61, api_team_id: 576, team_name: 'RC Strasbourg Alsace', team_logo: 'https://crests.football-data.org/576.png' },
   { league_id: 61, api_team_id: 1045, team_name: 'Paris FC', team_logo: 'https://crests.football-data.org/1045.png' },
-
   ];

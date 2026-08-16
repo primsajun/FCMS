@@ -1254,7 +1254,7 @@ function App() {
           const merged = PREDEFINED_TEAMS.map((team, index) => {
             const savedTeam = dbData.find(s => s.team_name === team.team_name && s.league_id === team.league_id);
             if (savedTeam) {
-              return savedTeam;
+              return { ...team, ...savedTeam };
             } else {
               return {
                 ...team,
@@ -1268,7 +1268,13 @@ function App() {
           merged.sort((a, b) => {
             const aPts = a.custom_points || a.points || 0;
             const bPts = b.custom_points || b.points || 0;
-            return bPts - aPts;
+            if (bPts !== aPts) return bPts - aPts;
+            
+            const aGD = a.goals_diff || 0;
+            const bGD = b.goals_diff || 0;
+            if (bGD !== aGD) return bGD - aGD;
+            
+            return (a.rank || 99) - (b.rank || 99);
           });
 
           // Group by league
