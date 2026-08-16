@@ -112,6 +112,7 @@ export const handler = async (event, context) => {
       }
       
       recordsToInsert.push({
+        api_fixture_id: match.id,
         league_name: leagueName,
         elapsed: elapsed,
         home_team_name: ourHomeName,
