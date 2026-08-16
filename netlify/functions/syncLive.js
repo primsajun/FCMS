@@ -73,7 +73,7 @@ export const handler = async (event, context) => {
   console.log('Fetching live scores from Football-Data.org...');
   
   try {
-    const res = await fetch('https://api.football-data.org/v4/matches?status=IN_PLAY,PAUSED', {
+    const res = await fetch('https://api.football-data.org/v4/matches?status=IN_PLAY,PAUSED,LIVE', {
       headers: { 'X-Auth-Token': FD_TOKEN }
     });
     
