@@ -96,8 +96,8 @@ async function syncFootballDataLive() {
     const ourHomeName = TEAM_MAP[fdHomeName] || fdHomeName;
     const ourAwayName = TEAM_MAP[fdAwayName] || fdAwayName;
     
-    const homeTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourHomeName) || { api_team_id: 0, team_logo: 'https://media.api-sports.io/football/teams/0.png' };
-    const awayTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourAwayName) || { api_team_id: 0, team_logo: 'https://media.api-sports.io/football/teams/0.png' };
+    const homeTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourHomeName) || { api_team_id: 0, team_logo: match.homeTeam.crest || 'https://media.api-sports.io/football/teams/0.png' };
+    const awayTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourAwayName) || { api_team_id: 0, team_logo: match.awayTeam.crest || 'https://media.api-sports.io/football/teams/0.png' };
     
     // Calculate elapsed time (rough estimate using start date since FD API doesn't always provide precise minute)
     let elapsed = 'Live';

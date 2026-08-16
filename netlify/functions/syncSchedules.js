@@ -1,8 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
-import { PREDEFINED_TEAMS } from '../src/predefinedTeams.js';
-
-dotenv.config();
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
@@ -65,13 +61,11 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
   
   if (!res.ok) {
     console.error('Failed to fetch from Football-Data.org:', res.status, res.statusText);
-    process.exit(1);
+    return;
   }
   
   const data = await res.json();
   const matches = data.matches;
-  
-  console.log(`Found ${matches.length} matches. Processing and mapping to API-Sports IDs...`);
   
   const recordsToInsert = [];
   
@@ -79,16 +73,11 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
     const fdHomeName = match.homeTeam.name;
     const fdAwayName = match.awayTeam.name;
     
-    const ourHomeName = TEAM_MAP[fdHomeName];
-    const ourAwayName = TEAM_MAP[fdAwayName];
+    const ourHomeName = TEAM_MAP[fdHomeName] || fdHomeName;
+    const ourAwayName = TEAM_MAP[fdAwayName] || fdAwayName;
     
-    if (!ourHomeName || !ourAwayName) {
-      console.warn(`WARNING: Could not map teams: ${fdHomeName} vs ${fdAwayName}`);
-      continue;
-    }
-    
-    const homeTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourHomeName) || { api_team_id: 0, team_logo: match.homeTeam.crest || 'https://media.api-sports.io/football/teams/0.png' };
-    const awayTeamDetails = PREDEFINED_TEAMS.find(t => t.team_name === ourAwayName) || { api_team_id: 0, team_logo: match.awayTeam.crest || 'https://media.api-sports.io/football/teams/0.png' };
+    const homeTeamLogo = match.homeTeam.crest || 'https://media.api-sports.io/football/teams/0.png';
+    const awayTeamLogo = match.awayTeam.crest || 'https://media.api-sports.io/football/teams/0.png';
     
     const utcDate = new Date(match.utcDate);
     const matchDateStr = utcDate.toISOString().split('T')[0]; // YYYY-MM-DD
@@ -106,20 +95,16 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
       league_id: leagueId,
       match_date: matchDateStr,
       match_time: matchTimeStr,
-      home_team_id: homeTeamDetails.api_team_id, home_team_name: ourHomeName,
-      home_team_logo: homeTeamDetails.team_logo,
-      away_team_id: awayTeamDetails.api_team_id, away_team_name: ourAwayName,
-      away_team_logo: awayTeamDetails.team_logo,
+      home_team_id: 0, home_team_name: ourHomeName,
+      home_team_logo: homeTeamLogo,
+      away_team_id: 0, away_team_name: ourAwayName,
+      away_team_logo: awayTeamLogo,
       home_goals: homeGoals,
       away_goals: awayGoals
     });
   }
   
-  console.log(`Successfully mapped ${recordsToInsert.length} matches.`);
-  
   if (recordsToInsert.length > 0) {
-    console.log('Inserting into Supabase custom_fixtures table...');
-    
     const { error: deleteError } = await supabase
       .from('custom_fixtures')
       .delete()
@@ -135,15 +120,17 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
       
     if (insertError) {
       console.error('Error inserting new fixtures:', insertError);
-    } else {
-      console.log(`✅ Successfully inserted all ${leagueName} fixtures into Supabase!`);
     }
   }
 }
 
-async function run() {
-  await syncFootballDataSchedules('PL', 39, 'Premier League');
-  await syncFootballDataSchedules('PD', 140, 'La Liga');
-}
-
-run();
+export const handler = async (event, context) => {
+  try {
+    await syncFootballDataSchedules('PL', 39, 'Premier League');
+    await syncFootballDataSchedules('PD', 140, 'La Liga');
+    return { statusCode: 200, body: JSON.stringify({ message: "Schedules sync successful" }) };
+  } catch (err) {
+    console.error("Function error:", err);
+    return { statusCode: 500, body: "Function execution error" };
+  }
+};
