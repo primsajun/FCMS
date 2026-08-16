@@ -1,11 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
-import fetch from 'node-fetch';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 const FD_TOKEN = '69496527988c45de869d3b71017aff59';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const TEAM_MAP = {
   // Premier League
@@ -60,6 +58,15 @@ const LEAGUE_MAP = {
 };
 
 export const handler = async (event, context) => {
+  let supabase;
+  try {
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      return { statusCode: 500, body: JSON.stringify({ error: "Missing Supabase env vars" }) };
+    }
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch (err) {
+    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+  }
   console.log('Fetching live scores from Football-Data.org...');
   
   try {

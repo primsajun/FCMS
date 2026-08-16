@@ -1,11 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
-import fetch from 'node-fetch';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 const FD_TOKEN = '69496527988c45de869d3b71017aff59';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const SEASON = '2026';
 
@@ -67,6 +65,15 @@ async function syncLeagueStats(leagueCode, leagueName) {
 }
 
 export const handler = async (event, context) => {
+  let supabase;
+  try {
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      return { statusCode: 500, body: JSON.stringify({ error: "Missing Supabase env vars" }) };
+    }
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch (err) {
+    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+  }
   console.log('--- STARTING FOOTBALL-DATA.ORG PLAYER STATS SYNC ---');
   
   try {
