@@ -102,13 +102,13 @@ export const handler = async (event, context) => {
       const homeLogo = match.homeTeam.crest || 'https://media.api-sports.io/football/teams/0.png';
       const awayLogo = match.awayTeam.crest || 'https://media.api-sports.io/football/teams/0.png';
       
-      let elapsed = 'Live';
-      if (match.status === 'PAUSED') elapsed = 'HT';
+      let elapsed = 1;
+      if (match.status === 'PAUSED') elapsed = 45;
       else if (match.utcDate) {
         const startTime = new Date(match.utcDate).getTime();
         const now = new Date().getTime();
         const diffMins = Math.floor((now - startTime) / 60000);
-        if (diffMins > 0 && diffMins <= 120) elapsed = diffMins.toString();
+        if (diffMins > 0 && diffMins <= 120) elapsed = diffMins;
       }
       
       recordsToInsert.push({
