@@ -57,6 +57,12 @@ const LEAGUE_MAP = {
   'CL': 'Champions League'
 };
 
+const LEAGUE_ID_MAP = {
+  'PL': 39,
+  'PD': 140,
+  'CL': 2
+};
+
 export const handler = async (event, context) => {
   let supabase;
   try {
@@ -110,6 +116,7 @@ export const handler = async (event, context) => {
       
       recordsToInsert.push({
         api_fixture_id: match.id,
+        league_id: LEAGUE_ID_MAP[match.competition.code],
         league_name: leagueName,
         elapsed: elapsed,
         home_team_name: ourHomeName,

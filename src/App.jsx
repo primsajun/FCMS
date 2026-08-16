@@ -84,7 +84,7 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
           </div>
         </div>
         <div className="match-footer">
-          <span className="text-muted" style={{fontSize: '0.65rem'}}>Live API Data</span>
+          <span className="text-muted" style={{fontSize: '0.65rem'}}>LET'S ENJOY!!!!</span>
         </div>
       </div>
     ));
