@@ -1231,7 +1231,7 @@ function App() {
           
           // Merge with PREDEFINED_TEAMS
           const merged = PREDEFINED_TEAMS.map((team, index) => {
-            const savedTeam = dbData.find(s => s.api_team_id === team.api_team_id && s.league_id === team.league_id);
+            const savedTeam = dbData.find(s => s.team_name === team.team_name && s.league_id === team.league_id);
             if (savedTeam) {
               return savedTeam;
             } else {
