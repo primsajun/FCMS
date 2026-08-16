@@ -42,6 +42,7 @@ async function syncLeagueStats(leagueCode, leagueName) {
           league: leagueName,
           stat_type: 'goals',
           player_name: playerName,
+          player_logo: scorerData.team?.crest || 'https://media.api-sports.io/football/teams/0.png',
           stat_value: goals
         });
       }
@@ -51,6 +52,7 @@ async function syncLeagueStats(leagueCode, leagueName) {
           league: leagueName,
           stat_type: 'assists',
           player_name: playerName,
+          player_logo: scorerData.team?.crest || 'https://media.api-sports.io/football/teams/0.png',
           stat_value: assists
         });
       }

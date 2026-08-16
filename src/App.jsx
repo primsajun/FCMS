@@ -272,7 +272,11 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
               <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
                 {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'goals').slice(0, 3).map((stat, index) => (
                   <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 2 ? '0.5rem' : 0}}>
-                    <span style={{fontWeight: '600', color: 'var(--text-secondary)'}}>{index + 1}. {stat.player_name}</span>
+                    <span style={{fontWeight: '600', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <span style={{color: 'var(--text-muted)'}}>{index + 1}.</span> 
+                      {stat.player_logo && <img src={stat.player_logo} alt="team" style={{width: '20px', height: '20px', borderRadius: '50%'}} />}
+                      {stat.player_name}
+                    </span>
                     <span style={{color: 'var(--accent-primary)', fontWeight: 'bold'}}>{stat.stat_value} Goals</span>
                   </div>
                 ))}
@@ -287,7 +291,11 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
               <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
                 {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'assists').slice(0, 3).map((stat, index) => (
                   <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 2 ? '0.5rem' : 0}}>
-                    <span style={{fontWeight: '600', color: 'var(--text-secondary)'}}>{index + 1}. {stat.player_name}</span>
+                    <span style={{fontWeight: '600', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <span style={{color: 'var(--text-muted)'}}>{index + 1}.</span> 
+                      {stat.player_logo && <img src={stat.player_logo} alt="team" style={{width: '20px', height: '20px', borderRadius: '50%'}} />}
+                      {stat.player_name}
+                    </span>
                     <span style={{color: 'var(--accent-primary)', fontWeight: 'bold'}}>{stat.stat_value} Assists</span>
                   </div>
                 ))}
