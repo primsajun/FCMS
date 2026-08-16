@@ -828,8 +828,8 @@ function TeamDetails({ teamId, onBack }) {
         </button>
         <div style={{padding: '4rem', textAlign: 'center', color: 'var(--text-muted)'}}>
           <h2 style={{color: '#fff', marginBottom: '1rem'}}>Team Data Not Synced</h2>
-          <p>This team's data hasn't been synced from Football-Data.org to Supabase yet.</p>
-          <p>Run <code>node scripts/syncFootballDataTeamDetails.js</code> to populate missing teams.</p>
+          <p>This team's data hasn't been synced from API-Sports to Supabase yet.</p>
+          <p>Run the sync script for team ID {teamId} to populate this team's squad.</p>
         </div>
       </div>
     );
