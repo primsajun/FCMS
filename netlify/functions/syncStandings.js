@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import fetch from 'node-fetch';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
