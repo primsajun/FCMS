@@ -439,6 +439,9 @@ function LiveMatches({ onMatchClick, liveMatches, isLoadingLive }) {
             <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>Premier League</button>
             <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>La Liga</button>
             <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>Champions League</button>
+            <button className={`filter-pill ${activeLeague === 78 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(78)}>Bundesliga</button>
+            <button className={`filter-pill ${activeLeague === 135 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(135)}>Serie A</button>
+            <button className={`filter-pill ${activeLeague === 61 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(61)}>Ligue 1</button>
           </div>
         </div>
       </div>
@@ -559,6 +562,9 @@ function Fixtures({ onMatchClick, fixturesData, isLoadingFixtures }) {
         <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>PREMIER LEAGUE</button>
         <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>LA LIGA</button>
         <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>CHAMPIONS LEAGUE</button>
+        <button className={`filter-pill ${activeLeague === 78 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(78)}>BUNDESLIGA</button>
+        <button className={`filter-pill ${activeLeague === 135 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(135)}>SERIE A</button>
+        <button className={`filter-pill ${activeLeague === 61 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(61)}>LIGUE 1</button>
       </div>
 
       {renderLeagueGroups()}
@@ -687,6 +693,9 @@ function History({ fixturesData, isLoadingFixtures }) {
         <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>PREMIER LEAGUE</button>
         <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>LA LIGA</button>
         <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>CHAMPIONS LEAGUE</button>
+        <button className={`filter-pill ${activeLeague === 78 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(78)}>BUNDESLIGA</button>
+        <button className={`filter-pill ${activeLeague === 135 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(135)}>SERIE A</button>
+        <button className={`filter-pill ${activeLeague === 61 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(61)}>LIGUE 1</button>
       </div>
 
       <div className="fixtures-container">
@@ -702,6 +711,9 @@ function Teams({ onTeamClick }) {
 
   const premierLeagueTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 39);
   const laLigaTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 140);
+  const bundesligaTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 78);
+  const serieATeams = PREDEFINED_TEAMS.filter(t => t.league_id === 135);
+  const ligue1Teams = PREDEFINED_TEAMS.filter(t => t.league_id === 61);
   
   const renderLeagueSection = (title, country, teamsList, leagueId) => {
     const isExpanded = expandedLeague === leagueId;
@@ -756,8 +768,11 @@ function Teams({ onTeamClick }) {
         </p>
       </div>
 
-      {renderLeagueSection("Premier League", "England • Tier 1 Division", premierLeagueTeams, 39)}
+      {renderLeagueSection("Premier League", "England • Tier 1", premierLeagueTeams, 39)}
       {renderLeagueSection("La Liga", "Spain • Primera División", laLigaTeams, 140)}
+      {renderLeagueSection("Bundesliga", "Germany • Tier 1", bundesligaTeams, 78)}
+      {renderLeagueSection("Serie A", "Italy • Tier 1", serieATeams, 135)}
+      {renderLeagueSection("Ligue 1", "France • Tier 1", ligue1Teams, 61)}
     </div>
   );
 }
@@ -1135,12 +1150,18 @@ function FullTables({ standingsData }) {
         <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>PREMIER LEAGUE</button>
         <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>LA LIGA</button>
         <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>CHAMPIONS LEAGUE</button>
+        <button className={`filter-pill ${activeLeague === 78 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(78)}>BUNDESLIGA</button>
+        <button className={`filter-pill ${activeLeague === 135 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(135)}>SERIE A</button>
+        <button className={`filter-pill ${activeLeague === 61 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(61)}>LIGUE 1</button>
       </div>
 
       <div className="admin-grid" style={{gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto'}}>
         {activeLeague === 39 && renderFullTable(39, "Premier League")}
         {activeLeague === 140 && renderFullTable(140, "La Liga")}
         {activeLeague === 2 && renderFullTable(2, "Champions League")}
+        {activeLeague === 78 && renderFullTable(78, "Bundesliga")}
+        {activeLeague === 135 && renderFullTable(135, "Serie A")}
+        {activeLeague === 61 && renderFullTable(61, "Ligue 1")}
       </div>
     </div>
     );

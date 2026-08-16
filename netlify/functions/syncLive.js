@@ -54,13 +54,19 @@ const TEAM_MAP = {
 const LEAGUE_MAP = {
   'PL': 'Premier League',
   'PD': 'La Liga',
-  'CL': 'Champions League'
+  'CL': 'Champions League',
+  'BL1': 'Bundesliga',
+  'SA': 'Serie A',
+  'FL1': 'Ligue 1'
 };
 
 const LEAGUE_ID_MAP = {
   'PL': 39,
   'PD': 140,
-  'CL': 2
+  'CL': 2,
+  'BL1': 78,
+  'SA': 135,
+  'FL1': 61
 };
 
 export const handler = async (event, context) => {

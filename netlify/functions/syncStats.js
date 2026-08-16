@@ -10,7 +10,10 @@ const SEASON = '2026';
 const LEAGUES = [
   { code: 'PL', name: 'Premier League' },
   { code: 'PD', name: 'La Liga' },
-  { code: 'CL', name: 'Champions League' }
+  { code: 'CL', name: 'Champions League' },
+  { code: 'BL1', name: 'Bundesliga' },
+  { code: 'SA', name: 'Serie A' },
+  { code: 'FL1', name: 'Ligue 1' }
 ];
 
 async function syncLeagueStats(leagueCode, leagueName) {

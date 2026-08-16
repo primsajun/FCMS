@@ -136,6 +136,10 @@ export const handler = async (event, context) => {
   try {
     await syncFootballDataSchedules('PL', 39, 'Premier League');
     await syncFootballDataSchedules('PD', 140, 'La Liga');
+    await syncFootballDataSchedules('CL', 2, 'Champions League');
+    await syncFootballDataSchedules('BL1', 78, 'Bundesliga');
+    await syncFootballDataSchedules('SA', 135, 'Serie A');
+    await syncFootballDataSchedules('FL1', 61, 'Ligue 1');
     return { statusCode: 200, body: JSON.stringify({ message: "Schedules sync successful" }) };
   } catch (err) {
     console.error("Function error:", err);

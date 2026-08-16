@@ -128,6 +128,9 @@ export const handler = async (event, context) => {
   try {
     await syncFootballDataStandings('PL', 39, 'Premier League');
     await syncFootballDataStandings('PD', 140, 'La Liga');
+    await syncFootballDataStandings('BL1', 78, 'Bundesliga');
+    await syncFootballDataStandings('SA', 135, 'Serie A');
+    await syncFootballDataStandings('FL1', 61, 'Ligue 1');
     return { statusCode: 200, body: JSON.stringify({ message: "Standings sync successful" }) };
   } catch (err) {
     console.error("Function error:", err);
