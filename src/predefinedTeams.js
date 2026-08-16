@@ -75,7 +75,7 @@ export const PREDEFINED_TEAMS = [
   { league_id: 2, api_team_id: 550, team_name: 'Shakhtar', team_logo: 'https://media.api-sports.io/football/teams/550.png' },
   { league_id: 2, api_team_id: 571, team_name: 'RB Salzburg', team_logo: 'https://media.api-sports.io/football/teams/571.png' },
   { league_id: 2, api_team_id: 91, team_name: 'Monaco', team_logo: 'https://media.api-sports.io/football/teams/91.png' },
-  { league_id: 2, api_team_id: 79, team_name: 'Lille', team_logo: 'https://media.api-sports.io/football/teams/79.png' }
+  { league_id: 2, api_team_id: 79, team_name: 'Lille', team_logo: 'https://media.api-sports.io/football/teams/79.png' },
 
   // --- NEW LEAGUES EXTENSION ---
   // Bundesliga
