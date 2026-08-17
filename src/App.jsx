@@ -247,6 +247,27 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
                 <h3 className="feature-title">Champions League</h3>
                 <p className="feature-desc" style={{marginTop: '0.5rem'}}>Europe's elite tournament where the absolute best clubs on the continent battle for ultimate football supremacy.</p>
               </div>
+              <div className="card feature-card" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+                <div style={{backgroundColor: '#fff', borderRadius: '50%', padding: '0.5rem', marginBottom: '1rem', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <div style={{backgroundImage: 'url(https://media.api-sports.io/football/leagues/78.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '60px', height: '60px'}}></div>
+                </div>
+                <h3 className="feature-title">Bundesliga</h3>
+                <p className="feature-desc" style={{marginTop: '0.5rem'}}>Germany's top flight, famous for its incredible atmosphere, high-scoring matches, and passionate fan culture.</p>
+              </div>
+              <div className="card feature-card" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+                <div style={{backgroundColor: '#fff', borderRadius: '50%', padding: '0.5rem', marginBottom: '1rem', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <div style={{backgroundImage: 'url(https://media.api-sports.io/football/leagues/135.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '60px', height: '60px'}}></div>
+                </div>
+                <h3 className="feature-title">Serie A</h3>
+                <p className="feature-desc" style={{marginTop: '0.5rem'}}>Italy's legendary league, steeped in history and renowned for its tactical masterclasses and fierce derbies.</p>
+              </div>
+              <div className="card feature-card" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+                <div style={{backgroundColor: '#fff', borderRadius: '50%', padding: '0.5rem', marginBottom: '1rem', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <div style={{backgroundImage: 'url(https://media.api-sports.io/football/leagues/61.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', width: '60px', height: '60px'}}></div>
+                </div>
+                <h3 className="feature-title">Ligue 1</h3>
+                <p className="feature-desc" style={{marginTop: '0.5rem'}}>France's premier division, a showcase of dazzling individual talent and the birthplace of future superstars.</p>
+              </div>
             </div>
           </section>
 
@@ -254,7 +275,7 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', marginBottom: '1rem', gap: '1rem'}}>
             <h2 className="section-title" style={{marginBottom: 0}}>Player Stats</h2>
             <div style={{display: 'flex', gap: '0.5rem'}}>
-              {['Premier League', 'La Liga', 'Champions League'].map(league => (
+              {['Premier League', 'La Liga', 'Champions League', 'Bundesliga', 'Serie A', 'Ligue 1'].map(league => (
                 <button 
                   key={league}
                   onClick={() => setActiveStatsLeague(league)}
