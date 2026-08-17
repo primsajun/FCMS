@@ -403,12 +403,13 @@ function LiveMatches({ onMatchClick, liveMatches, isLoadingLive }) {
       return (
         <div className="empty-state-message" style={{padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}>
           <video 
-            src="/videos/intro video for fcms leagues.mp4" 
+            src="/videos/intro%20video%20for%20fcms%20leagues.mp4" 
             autoPlay 
             loop 
             muted 
+            playsInline
             controls
-            style={{ width: '100%', maxWidth: '900px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
+            style={{ width: '60%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
           />
           <span style={{color: 'var(--text-muted)'}}>No live matches available for this selection right now.</span>
         </div>
