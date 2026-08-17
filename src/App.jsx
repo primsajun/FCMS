@@ -1469,7 +1469,7 @@ function App() {
         <nav className="navbar">
           <div className="nav-left">
             <div className="logo">
-              <img src="/logo.png" alt="FCMS Logo" style={{height: '48px'}} />
+              <img src="/logo.png" alt="FCMS Logo" style={{height: '64px'}} />
             </div>
             <div className="nav-links">
               <button onClick={() => setCurrentPage('home')} className={`nav-link ${currentPage === 'home' ? 'active-underline' : ''}`}>Home</button>
