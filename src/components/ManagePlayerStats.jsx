@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Trophy, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
+import { PREDEFINED_TEAMS } from '../predefinedTeams';
 
 export default function ManagePlayerStats({ onBack }) {
   const [stats, setStats] = useState([]);
@@ -8,6 +9,7 @@ export default function ManagePlayerStats({ onBack }) {
   const [statType, setStatType] = useState('goals');
   const [playerName, setPlayerName] = useState('');
   const [statValue, setStatValue] = useState('');
+  const [teamLogo, setTeamLogo] = useState('');
   const [loading, setLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState(null);
 
@@ -41,7 +43,7 @@ export default function ManagePlayerStats({ onBack }) {
     
     try {
       const { data, error } = await supabase.from('player_stats').insert([
-        { league, stat_type: statType, player_name: playerName, stat_value: parseInt(statValue) }
+        { league, stat_type: statType, player_name: playerName, stat_value: parseInt(statValue), player_logo: teamLogo || 'https://media.api-sports.io/football/teams/0.png' }
       ]).select();
       
       if (error) throw error;
@@ -52,6 +54,7 @@ export default function ManagePlayerStats({ onBack }) {
       
       setPlayerName('');
       setStatValue('');
+      setTeamLogo('');
       showStatus('success', 'Player stat added successfully');
     } catch (err) {
       console.error(err);
@@ -97,13 +100,23 @@ export default function ManagePlayerStats({ onBack }) {
           
           <div style={{marginBottom: '1rem'}}>
             <label style={{display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)'}}>League</label>
-            <select className="admin-input" style={{width: '100%'}} value={league} onChange={(e) => setLeague(e.target.value)}>
+            <select className="admin-input" style={{width: '100%'}} value={league} onChange={(e) => { setLeague(e.target.value); setTeamLogo(''); }}>
               <option value="Premier League">Premier League</option>
               <option value="La Liga">La Liga</option>
               <option value="Champions League">Champions League</option>
               <option value="Bundesliga">Bundesliga</option>
               <option value="Serie A">Serie A</option>
               <option value="Ligue 1">Ligue 1</option>
+            </select>
+          </div>
+
+          <div style={{marginBottom: '1rem'}}>
+            <label style={{display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)'}}>Player Team (for Logo)</label>
+            <select className="admin-input" style={{width: '100%'}} value={teamLogo} onChange={(e) => setTeamLogo(e.target.value)}>
+              <option value="">-- Select Team --</option>
+              {PREDEFINED_TEAMS.filter(t => t.league_id === (league === 'Premier League' ? 39 : league === 'La Liga' ? 140 : league === 'Champions League' ? 2 : league === 'Bundesliga' ? 78 : league === 'Serie A' ? 135 : 61)).map(t => (
+                <option key={t.api_team_id} value={t.team_logo}>{t.team_name}</option>
+              ))}
             </select>
           </div>
 
