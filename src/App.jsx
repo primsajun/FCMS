@@ -401,16 +401,18 @@ function LiveMatches({ onMatchClick, liveMatches, isLoadingLive }) {
 
     if (!filteredMatches || filteredMatches.length === 0) {
       return (
-        <div className="empty-state-message" style={{padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}>
-          <video 
-            src="/videos/intro%20video%20for%20fcms%20leagues.mp4" 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            controls
-            style={{ width: '60%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-          />
+        <div className="empty-state-message" style={{padding: '0', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', width: '100%'}}>
+          <div style={{ width: '100%', overflow: 'hidden', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}>
+            <video 
+              src="/videos/intro%20video%20for%20fcms%20leagues.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              controls
+              style={{ width: '100%', display: 'block', transform: 'scale(1.06)', transformOrigin: 'center' }}
+            />
+          </div>
           <span style={{color: 'var(--text-muted)'}}>No live matches available for this selection right now.</span>
         </div>
       );
