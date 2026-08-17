@@ -84,7 +84,7 @@ export const handler = async (event, context) => {
   try {
     let allRecords = [];
     for (const league of LEAGUES) {
-      const records = await syncLeagueStats(league.code, league.name);
+      const records = await syncLeagueStats(league.code, league.name); await new Promise(r => setTimeout(r, 6500));
       allRecords = allRecords.concat(records);
     }
 
