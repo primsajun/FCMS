@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import { Settings, Save, AlertCircle, CheckCircle2, Activity, Trash2, FolderOpen, Radio } from 'lucide-react';
 import { PREDEFINED_TEAMS } from './predefinedTeams';
@@ -490,7 +490,7 @@ export default function AdminDashboard() {
         </div>
 
         {saveStatus && (
-          <div className="admin-notification" style={{backgroundColor: saveStatus.type === 'success' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(239, 68, 68, 0.2)', color: saveStatus.type === 'success' ? '#4ade80' : '#ef4444'}}>
+          <div className="admin-notification" style={{backgroundColor: saveStatus.type === 'success' ? 'rgba(251, 191, 36, 0.2)' : 'rgba(239, 68, 68, 0.2)', color: saveStatus.type === 'success' ? 'var(--accent-primary)' : '#ef4444'}}>
             {saveStatus.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
             {saveStatus.message}
           </div>

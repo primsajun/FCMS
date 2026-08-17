@@ -58,7 +58,7 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
       }
 
     return liveMatches.map((match) => (
-      <div key={match.id} className="card match-card" style={{ borderColor: 'rgba(74, 222, 128, 0.4)' }}>
+      <div key={match.id} className="card match-card" style={{ borderColor: 'rgba(251, 191, 36, 0.4)' }}>
         <div className="flex justify-between items-center">
           <span className="match-league">
             {match.league_name.toUpperCase()} 
@@ -421,10 +421,10 @@ function LiveMatches({ onMatchClick, liveMatches, isLoadingLive }) {
     return (
       <div className="live-grid">
         {filteredMatches.map((match) => (
-          <div key={match.id} className="large-match-card" style={{ borderColor: 'rgba(74, 222, 128, 0.4)' }}>
+          <div key={match.id} className="large-match-card" style={{ borderColor: 'rgba(251, 191, 36, 0.4)' }}>
             <div className="card-top">
               <div className="league-badge">{match.league_name.toUpperCase()}</div>
-              <div className="live-time">{match.elapsed}' <div className="live-dot-small" style={{backgroundColor: '#22c55e'}}></div></div>
+              <div className="live-time">{match.elapsed}' <div className="live-dot-small" style={{backgroundColor: 'var(--accent-primary)'}}></div></div>
             </div>
             
             <div className="match-center">
