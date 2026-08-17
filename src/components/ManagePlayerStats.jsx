@@ -101,6 +101,9 @@ export default function ManagePlayerStats({ onBack }) {
               <option value="Premier League">Premier League</option>
               <option value="La Liga">La Liga</option>
               <option value="Champions League">Champions League</option>
+              <option value="Bundesliga">Bundesliga</option>
+              <option value="Serie A">Serie A</option>
+              <option value="Ligue 1">Ligue 1</option>
             </select>
           </div>
 
@@ -133,7 +136,7 @@ export default function ManagePlayerStats({ onBack }) {
             <p className="text-muted">No stats found.</p>
           ) : (
             <div style={{display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '600px', overflowY: 'auto', paddingRight: '1rem'}}>
-              {['Premier League', 'La Liga', 'Champions League'].map(l => (
+              {['Premier League', 'La Liga', 'Champions League', 'Bundesliga', 'Serie A', 'Ligue 1'].map(l => (
                 <div key={l} style={{marginBottom: '1rem'}}>
                   <h4 style={{borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', marginBottom: '0.5rem', color: 'var(--accent-primary)'}}>{l}</h4>
                   {['goals', 'assists'].map(t => (
