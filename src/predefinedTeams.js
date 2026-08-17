@@ -127,7 +127,7 @@ export const PREDEFINED_TEAMS = [
   { league_id: 61, api_team_id: 80, team_name: 'Olympique Lyonnais', team_logo: 'https://crests.football-data.org/523.png' },
   { league_id: 61, api_team_id: 85, team_name: 'Paris Saint-Germain FC', team_logo: 'https://crests.football-data.org/524.png' },
   { league_id: 61, api_team_id: 525, team_name: 'FC Lorient', team_logo: 'https://crests.football-data.org/525.png' },
-  { league_id: 61, api_team_id: 106, team_name: 'Stade Rennais FC 1901', team_logo: 'https://crests.football-data.org/529.png' },
+  { league_id: 61, api_team_id: 94, team_name: 'Stade Rennais FC 1901', team_logo: 'https://crests.football-data.org/529.png' },
   { league_id: 61, api_team_id: 531, team_name: 'ES Troyes AC', team_logo: 'https://crests.football-data.org/531.png' },
   { league_id: 61, api_team_id: 77, team_name: 'Angers SCO', team_logo: 'https://crests.football-data.org/532.png' },
   { league_id: 61, api_team_id: 111, team_name: 'Le Havre AC', team_logo: 'https://crests.football-data.org/533.png' },

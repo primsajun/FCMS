@@ -18,7 +18,7 @@ export default function ManagePlayerStats({ onBack }) {
   const fetchStats = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from('league_player_stats').select('*').order('stat_value', { ascending: false });
+      const { data, error } = await supabase.from('player_stats').select('*').order('stat_value', { ascending: false });
       if (error) throw error;
       if (data) setStats(data);
     } catch (err) {
@@ -40,7 +40,7 @@ export default function ManagePlayerStats({ onBack }) {
     }
     
     try {
-      const { data, error } = await supabase.from('league_player_stats').insert([
+      const { data, error } = await supabase.from('player_stats').insert([
         { league, stat_type: statType, player_name: playerName, stat_value: parseInt(statValue) }
       ]).select();
       
@@ -62,7 +62,7 @@ export default function ManagePlayerStats({ onBack }) {
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this stat?')) return;
     try {
-      const { error } = await supabase.from('league_player_stats').delete().eq('id', id);
+      const { error } = await supabase.from('player_stats').delete().eq('id', id);
       if (error) throw error;
       setStats(stats.filter(s => s.id !== id));
       showStatus('success', 'Stat deleted');
