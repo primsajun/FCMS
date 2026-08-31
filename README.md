@@ -32,8 +32,8 @@ Live deployment: [https://fcms.netlify.app](https://fcms.netlify.app)
 ## ⚙️ Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/primsajun/fcms-v2.git
-   cd fcms-v2
+   git clone https://github.com/primsajun/FCMS.git
+   cd FCMS
    ```
 2. Install dependencies:
    ```bash
