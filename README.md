@@ -23,8 +23,6 @@ The application employs a **Decoupled Serverless Architecture** to bypass strict
 2. **Data Storage:** A centralized Supabase PostgreSQL database serves as the caching and storage layer.
 3. **Client Subscription:** The React frontend subscribes to the database via WebSockets (`Supabase Realtime`) to display instant live score updates to thousands of concurrent users without hitting API rate limits.
 
-## 📸 Screenshots
-*(Add screenshots of the application here)*
 
 ## 🚀 Live Demo
 Live deployment: [https://fcms.netlify.app](https://fcms.netlify.app)
