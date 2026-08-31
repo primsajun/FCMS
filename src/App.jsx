@@ -1282,19 +1282,18 @@ function App() {
         if (data || PREDEFINED_TEAMS) {
           const dbData = data || [];
           
-          // Merge with PREDEFINED_TEAMS
-          const merged = PREDEFINED_TEAMS.map((team, index) => {
-            const savedTeam = dbData.find(s => s.team_name === team.team_name && s.league_id === team.league_id);
-            if (savedTeam) {
-              return { ...team, ...savedTeam };
-            } else {
-              return {
-                ...team,
-                rank: index + 1,
-                played: 0, win: 0, draw: 0, lose: 0, goals_diff: 0, points: 0, custom_points: 0
-              };
-            }
-          });
+            let merged = [...dbData];
+            const leaguesInDb = new Set(dbData.map(t => t.league_id));
+            
+            PREDEFINED_TEAMS.forEach((team, index) => {
+              if (!leaguesInDb.has(team.league_id)) {
+                merged.push({
+                  ...team,
+                  rank: index + 1,
+                  played: 0, win: 0, draw: 0, lose: 0, goals_diff: 0, points: 0, custom_points: 0
+                });
+              }
+            });
 
           // Sort by points (custom_points first, then points)
           merged.sort((a, b) => {
