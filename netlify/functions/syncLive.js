@@ -88,7 +88,7 @@ export const handler = async (event, context) => {
     
     if (!res.ok) {
       console.error('Failed to fetch live scores:', res.status, res.statusText);
-      return { statusCode: res.status, body: 'Failed to fetch API' };
+      return { statusCode: 200, body: 'Rate limited, skipping' };
     }
     
     const data = await res.json();

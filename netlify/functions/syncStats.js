@@ -26,7 +26,7 @@ async function syncLeagueStats(leagueCode, leagueName) {
     
     if (!res.ok) {
       console.error(`Failed to fetch ${leagueName} stats: ${res.statusText}`);
-      return [];
+      return []; // handled gracefully
     }
 
     const data = await res.json();
@@ -65,7 +65,7 @@ async function syncLeagueStats(leagueCode, leagueName) {
 
   } catch (err) {
     console.error(`Error fetching ${leagueName} stats:`, err);
-    return [];
+    return []; // handled gracefully
   }
 }
 
@@ -84,7 +84,7 @@ export const handler = async (event, context) => {
   try {
     let allRecords = [];
     for (const league of LEAGUES) {
-      const records = await syncLeagueStats(league.code, league.name); await new Promise(r => setTimeout(r, 6500));
+      const records = await syncLeagueStats(league.code, league.name); 
       allRecords = allRecords.concat(records);
     }
 
