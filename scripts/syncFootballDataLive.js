@@ -59,7 +59,10 @@ const TEAM_MAP = {
 const LEAGUE_MAP = {
   'PL': 'Premier League',
   'PD': 'La Liga',
-  'CL': 'Champions League'
+  'CL': 'Champions League',
+  'BL1': 'Bundesliga',
+  'SA': 'Serie A',
+  'FL1': 'Ligue 1'
 };
 
 async function syncFootballDataLive() {

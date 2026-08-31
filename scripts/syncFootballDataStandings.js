@@ -84,7 +84,7 @@ async function syncFootballDataStandings(compCode, leagueId, leagueName) {
   
   for (const row of table) {
     const fdName = row.team.name;
-    const ourName = TEAM_MAP[fdName];
+    const ourName = TEAM_MAP[fdName] || fdName;
     
     if (!ourName) {
       console.warn(`WARNING: Could not map team: ${fdName}`);
@@ -138,6 +138,10 @@ async function syncFootballDataStandings(compCode, leagueId, leagueName) {
 async function run() {
   await syncFootballDataStandings('PL', 39, 'Premier League');
   await syncFootballDataStandings('PD', 140, 'La Liga');
+  await syncFootballDataStandings('BL1', 78, 'Bundesliga');
+  await syncFootballDataStandings('SA', 135, 'Serie A');
+  await syncFootballDataStandings('FL1', 61, 'Ligue 1');
+  await syncFootballDataStandings('CL', 2, 'Champions League');
 }
 
 run();

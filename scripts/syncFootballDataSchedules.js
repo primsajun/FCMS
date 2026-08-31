@@ -79,8 +79,8 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
     const fdHomeName = match.homeTeam.name;
     const fdAwayName = match.awayTeam.name;
     
-    const ourHomeName = TEAM_MAP[fdHomeName];
-    const ourAwayName = TEAM_MAP[fdAwayName];
+    const ourHomeName = TEAM_MAP[fdHomeName] || fdHomeName;
+    const ourAwayName = TEAM_MAP[fdAwayName] || fdAwayName;
     
     if (!ourHomeName || !ourAwayName) {
       console.warn(`WARNING: Could not map teams: ${fdHomeName} vs ${fdAwayName}`);
@@ -144,6 +144,10 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
 async function run() {
   await syncFootballDataSchedules('PL', 39, 'Premier League');
   await syncFootballDataSchedules('PD', 140, 'La Liga');
+  await syncFootballDataSchedules('BL1', 78, 'Bundesliga');
+  await syncFootballDataSchedules('SA', 135, 'Serie A');
+  await syncFootballDataSchedules('FL1', 61, 'Ligue 1');
+  await syncFootballDataSchedules('CL', 2, 'Champions League');
 }
 
 run();
