@@ -1245,7 +1245,7 @@ function App() {
   const [fixturesData, setFixturesData] = useState([]);
   const [leagueStats, setLeagueStats] = useState([]);
   const [activeStatsLeague, setActiveStatsLeague] = useState('Premier League');
-  const [activeStatsLeague2, setActiveStatsLeague2] = useState('Champions League');
+  const [activeStatsLeague2, setActiveStatsLeague2] = useState('La Liga');
   const [isLoadingLive, setIsLoadingLive] = useState(true);
   const [isLoadingStandings, setIsLoadingStandings] = useState(true);
   const [isLoadingFixtures, setIsLoadingFixtures] = useState(true);
