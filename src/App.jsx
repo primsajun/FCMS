@@ -17,7 +17,7 @@ import CoachHub from './components/CoachHub';
 import PlayerHub from './components/PlayerHub';
 
 // --- HOME COMPONENT ---
-function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoadingLive, standingsData, isLoadingStandings, fixturesData, isLoadingFixtures, leagueStats, activeStatsLeague, setActiveStatsLeague }) {
+function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoadingLive, standingsData, isLoadingStandings, fixturesData, isLoadingFixtures, leagueStats, activeStatsLeague, setActiveStatsLeague, activeStatsLeague2, setActiveStatsLeague2 }) {
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
@@ -1227,6 +1227,7 @@ function App() {
   const [fixturesData, setFixturesData] = useState([]);
   const [leagueStats, setLeagueStats] = useState([]);
   const [activeStatsLeague, setActiveStatsLeague] = useState('Premier League');
+  const [activeStatsLeague2, setActiveStatsLeague2] = useState('Champions League');
   const [isLoadingLive, setIsLoadingLive] = useState(true);
   const [isLoadingStandings, setIsLoadingStandings] = useState(true);
   const [isLoadingFixtures, setIsLoadingFixtures] = useState(true);
@@ -1528,6 +1529,8 @@ function App() {
             leagueStats={leagueStats}
             activeStatsLeague={activeStatsLeague}
             setActiveStatsLeague={setActiveStatsLeague}
+            activeStatsLeague2={activeStatsLeague2}
+            setActiveStatsLeague2={setActiveStatsLeague2}
           />
         )}
         {currentPage === 'live' && (
