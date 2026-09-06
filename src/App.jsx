@@ -274,25 +274,28 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
         <section>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', marginBottom: '1rem', gap: '1rem'}}>
             <h2 className="section-title" style={{marginBottom: 0}}>Player Stats</h2>
-            <div style={{display: 'flex', gap: '0.5rem'}}>
-              {['Premier League', 'La Liga', 'Champions League', 'Bundesliga', 'Serie A', 'Ligue 1'].map(league => (
-                <button 
-                  key={league}
-                  onClick={() => setActiveStatsLeague(league)}
-                  className={`btn ${activeStatsLeague === league ? 'btn-primary' : 'btn-outline'}`}
-                  style={{padding: '0.25rem 0.75rem', fontSize: '0.8rem'}}
-                >
-                  {league === 'Champions League' ? 'UCL' : league}
-                </button>
-              ))}
-            </div>
           </div>
           <div className="trending-list" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem'}}>
+            
             <div className="card trending-card" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '1.5rem', height: 'auto', justifySelf: 'stretch', width: '100%'}}>
-              <h3 style={{fontSize: '1.1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)'}}><Trophy size={18} className="text-accent" /> Top Scorers</h3>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', marginBottom: '1rem'}}>
+                <h3 style={{fontSize: '1.1rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)'}}><Trophy size={18} className="text-accent" /> Top Scorers</h3>
+                <select 
+                  value={activeStatsLeague}
+                  onChange={(e) => setActiveStatsLeague(e.target.value)}
+                  style={{background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.25rem', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer'}}
+                >
+                  <option value="Premier League">Premier League</option>
+                  <option value="La Liga">La Liga</option>
+                  <option value="Champions League">Champions League</option>
+                  <option value="Bundesliga">Bundesliga</option>
+                  <option value="Serie A">Serie A</option>
+                  <option value="Ligue 1">Ligue 1</option>
+                </select>
+              </div>
               <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
-                {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'goals').slice(0, 3).map((stat, index) => (
-                  <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 2 ? '0.5rem' : 0}}>
+                {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'goals').slice(0, 5).map((stat, index) => (
+                  <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 4 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 4 ? '0.5rem' : 0}}>
                     <span style={{fontWeight: '600', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px'}}>
                       <span style={{color: 'var(--text-muted)'}}>{index + 1}.</span> 
                       {stat.player_logo && <img src={stat.player_logo} alt="team" style={{width: '20px', height: '20px', borderRadius: '50%'}} />}
@@ -306,25 +309,40 @@ function Home({ onMatchClick, onViewTables, onRegisterClick, liveMatches, isLoad
                 )}
               </div>
             </div>
-            
+
             <div className="card trending-card" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '1.5rem', height: 'auto', justifySelf: 'stretch', width: '100%'}}>
-              <h3 style={{fontSize: '1.1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)'}}><Trophy size={18} className="text-accent" /> Top Assists</h3>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', marginBottom: '1rem'}}>
+                <h3 style={{fontSize: '1.1rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)'}}><Trophy size={18} className="text-accent" /> Top Scorers</h3>
+                <select 
+                  value={activeStatsLeague2}
+                  onChange={(e) => setActiveStatsLeague2(e.target.value)}
+                  style={{background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid rgba(255,255,255,0.1)', padding: '0.25rem', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer'}}
+                >
+                  <option value="Champions League">Champions League</option>
+                  <option value="Premier League">Premier League</option>
+                  <option value="La Liga">La Liga</option>
+                  <option value="Bundesliga">Bundesliga</option>
+                  <option value="Serie A">Serie A</option>
+                  <option value="Ligue 1">Ligue 1</option>
+                </select>
+              </div>
               <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
-                {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'assists').slice(0, 3).map((stat, index) => (
-                  <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 2 ? '0.5rem' : 0}}>
+                {leagueStats.filter(s => s.league === activeStatsLeague2 && s.stat_type === 'goals').slice(0, 5).map((stat, index) => (
+                  <div key={stat.id} style={{display: 'flex', justifyContent: 'space-between', borderBottom: index < 4 ? '1px solid rgba(255,255,255,0.05)' : 'none', paddingBottom: index < 4 ? '0.5rem' : 0}}>
                     <span style={{fontWeight: '600', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px'}}>
                       <span style={{color: 'var(--text-muted)'}}>{index + 1}.</span> 
                       {stat.player_logo && <img src={stat.player_logo} alt="team" style={{width: '20px', height: '20px', borderRadius: '50%'}} />}
                       {stat.player_name}
                     </span>
-                    <span style={{color: 'var(--accent-primary)', fontWeight: 'bold'}}>{stat.stat_value} Assists</span>
+                    <span style={{color: 'var(--accent-primary)', fontWeight: 'bold'}}>{stat.stat_value} Goals</span>
                   </div>
                 ))}
-                {leagueStats.filter(s => s.league === activeStatsLeague && s.stat_type === 'assists').length === 0 && (
-                  <span className="text-muted" style={{fontSize: '0.85rem'}}>No assists stats yet.</span>
+                {leagueStats.filter(s => s.league === activeStatsLeague2 && s.stat_type === 'goals').length === 0 && (
+                  <span className="text-muted" style={{fontSize: '0.85rem'}}>No goals stats yet.</span>
                 )}
               </div>
             </div>
+
           </div>
         </section>
 
