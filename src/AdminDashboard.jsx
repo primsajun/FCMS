@@ -80,18 +80,25 @@ export default function AdminDashboard() {
       if (logsData) setAuditLogs(logsData);
       if (sfData) setScheduledMatches(sfData);
 
-      // Merge predefined teams with any data that exists in Supabase
-      const mergedStandings = PREDEFINED_TEAMS.map((team, index) => {
-        const savedTeam = stData?.find(s => s.api_team_id === team.api_team_id && s.league_id === team.league_id);
-        if (savedTeam) {
-          return { ...savedTeam, temporary_id: savedTeam.id }; // Use DB ID
-        } else {
-          return {
+      // Merge Supabase data with predefined teams as fallback
+      let mergedStandings = [];
+      const dbTeamKeys = new Set();
+      
+      if (stData) {
+        stData.forEach(savedTeam => {
+          mergedStandings.push({ ...savedTeam, temporary_id: savedTeam.id });
+          dbTeamKeys.add(`${savedTeam.league_id}_${savedTeam.api_team_id}`);
+        });
+      }
+      
+      PREDEFINED_TEAMS.forEach((team, index) => {
+        if (!dbTeamKeys.has(`${team.league_id}_${team.api_team_id}`)) {
+          mergedStandings.push({
             ...team,
-            temporary_id: `temp_${team.league_id}_${team.api_team_id}`, // UI key
+            temporary_id: `temp_${team.league_id}_${team.api_team_id}`,
             rank: index + 1,
             played: 0, win: 0, draw: 0, lose: 0, goals_diff: 0, points: 0, custom_points: 0
-          };
+          });
         }
       });
 
@@ -181,8 +188,8 @@ export default function AdminDashboard() {
       return;
     }
 
-    const homeTeam = PREDEFINED_TEAMS.find(t => t.api_team_id.toString() === schedHome);
-    const awayTeam = PREDEFINED_TEAMS.find(t => t.api_team_id.toString() === schedAway);
+    const homeTeam = standings.find(t => t.api_team_id.toString() === schedHome);
+    const awayTeam = standings.find(t => t.api_team_id.toString() === schedAway);
 
     try {
       const { error } = await supabase.from('custom_fixtures').insert({
@@ -537,7 +544,7 @@ export default function AdminDashboard() {
   }
 
   if (activeView === 'scheduler') {
-    const availableTeams = PREDEFINED_TEAMS.filter(t => t.league_id === schedLeague).sort((a,b) => a.team_name.localeCompare(b.team_name));
+    const availableTeams = standings.filter(t => t.league_id === schedLeague).sort((a,b) => a.team_name.localeCompare(b.team_name));
 
     return (
       <div className="admin-container">
@@ -565,6 +572,9 @@ export default function AdminDashboard() {
               <option value={39}>Premier League</option>
               <option value={140}>La Liga</option>
               <option value={2}>Champions League</option>
+              <option value={78}>Bundesliga</option>
+              <option value={135}>Serie A</option>
+              <option value={61}>Ligue 1</option>
             </select>
           </div>
 
@@ -666,15 +676,21 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      <div className="league-filters" style={{marginBottom: '2rem', justifyContent: 'center'}}>
+      <div className="league-filters" style={{marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap'}}>
         <button className={`filter-pill ${activeLeague === 39 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(39)}>PREMIER LEAGUE</button>
         <button className={`filter-pill ${activeLeague === 140 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(140)}>LA LIGA</button>
         <button className={`filter-pill ${activeLeague === 2 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(2)}>CHAMPIONS LEAGUE</button>
+        <button className={`filter-pill ${activeLeague === 78 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(78)}>BUNDESLIGA</button>
+        <button className={`filter-pill ${activeLeague === 135 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(135)}>SERIE A</button>
+        <button className={`filter-pill ${activeLeague === 61 ? 'active' : 'outline-pill'}`} onClick={() => setActiveLeague(61)}>LIGUE 1</button>
       </div>
 
-      {activeLeague === 39 && renderLeagueTable("Premier League", plStandings)}
-      {activeLeague === 140 && renderLeagueTable("La Liga", llStandings)}
-      {activeLeague === 2 && renderLeagueTable("Champions League", uclStandings)}
+      {activeLeague === 39 && renderLeagueTable("Premier League", standings.filter(s => s.league_id === 39).sort((a,b) => b.custom_points - a.custom_points))}
+      {activeLeague === 140 && renderLeagueTable("La Liga", standings.filter(s => s.league_id === 140).sort((a,b) => b.custom_points - a.custom_points))}
+      {activeLeague === 2 && renderLeagueTable("Champions League", standings.filter(s => s.league_id === 2).sort((a,b) => b.custom_points - a.custom_points))}
+      {activeLeague === 78 && renderLeagueTable("Bundesliga", standings.filter(s => s.league_id === 78).sort((a,b) => b.custom_points - a.custom_points))}
+      {activeLeague === 135 && renderLeagueTable("Serie A", standings.filter(s => s.league_id === 135).sort((a,b) => b.custom_points - a.custom_points))}
+      {activeLeague === 61 && renderLeagueTable("Ligue 1", standings.filter(s => s.league_id === 61).sort((a,b) => b.custom_points - a.custom_points))}
 
     </div>
   );

@@ -756,14 +756,23 @@ function History({ fixturesData, isLoadingFixtures }) {
 }
 
 // --- TEAMS COMPONENT (Directory) ---
-function Teams({ onTeamClick }) {
+function Teams({ onTeamClick, standingsData = {} }) {
   const [expandedLeague, setExpandedLeague] = useState(null);
 
-  const premierLeagueTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 39);
-  const laLigaTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 140);
-  const bundesligaTeams = PREDEFINED_TEAMS.filter(t => t.league_id === 78);
-  const serieATeams = PREDEFINED_TEAMS.filter(t => t.league_id === 135);
-  const ligue1Teams = PREDEFINED_TEAMS.filter(t => t.league_id === 61);
+  // Use dynamic DB data first, fallback to PREDEFINED_TEAMS
+  const getTeamsForLeague = (leagueId) => {
+    if (standingsData && standingsData[leagueId] && standingsData[leagueId].length > 0) {
+      return [...standingsData[leagueId]].sort((a,b) => a.team_name.localeCompare(b.team_name));
+    }
+    return PREDEFINED_TEAMS.filter(t => t.league_id === leagueId).sort((a,b) => a.team_name.localeCompare(b.team_name));
+  };
+
+  const premierLeagueTeams = getTeamsForLeague(39);
+  const laLigaTeams = getTeamsForLeague(140);
+  const championsLeagueTeams = getTeamsForLeague(2);
+  const bundesligaTeams = getTeamsForLeague(78);
+  const serieATeams = getTeamsForLeague(135);
+  const ligue1Teams = getTeamsForLeague(61);
   
   const renderLeagueSection = (title, country, teamsList, leagueId) => {
     const isExpanded = expandedLeague === leagueId;
@@ -820,6 +829,7 @@ function Teams({ onTeamClick }) {
 
       {renderLeagueSection("Premier League", "England • Tier 1", premierLeagueTeams, 39)}
       {renderLeagueSection("La Liga", "Spain • Primera División", laLigaTeams, 140)}
+      {renderLeagueSection("Champions League", "Europe • Tier 1", championsLeagueTeams, 2)}
       {renderLeagueSection("Bundesliga", "Germany • Tier 1", bundesligaTeams, 78)}
       {renderLeagueSection("Serie A", "Italy • Tier 1", serieATeams, 135)}
       {renderLeagueSection("Ligue 1", "France • Tier 1", ligue1Teams, 61)}
@@ -1572,7 +1582,7 @@ function App() {
             isLoadingFixtures={isLoadingFixtures}
           />
         )}
-        {currentPage === 'teams' && <Teams onTeamClick={handleTeamClick} />}
+        {currentPage === 'teams' && <Teams onTeamClick={handleTeamClick} standingsData={standingsData} />}
         {currentPage === 'team_details' && <TeamDetails teamId={selectedTeamId} onBack={handleBackToTeams} />}
         {currentPage === 'match_details' && <MatchDetails matchId={selectedMatchId} onBack={handleBackToLiveScores} />}
         {currentPage === 'admin' && <AdminDashboard />}
