@@ -1369,12 +1369,13 @@ function App() {
 
     // 3. Fetch Scheduled Fixtures
     const fetchFixtures = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('custom_fixtures')
-          .select('*')
-          .order('match_date', { ascending: true })
-          .order('match_time', { ascending: true });
+        try {
+          const { data, error } = await supabase
+            .from('custom_fixtures')
+            .select('*')
+            .limit(3000)
+            .order('match_date', { ascending: true })
+            .order('match_time', { ascending: true });
 
         if (error) throw error;
         
