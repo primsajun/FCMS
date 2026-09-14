@@ -344,6 +344,13 @@ export default function AdminDashboard() {
             <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem'}}><Activity size={24} style={{display: 'inline', verticalAlign: 'middle', marginRight: '0.5rem'}}/> Player Stats</h2>
             <p className="text-muted" style={{fontSize: '0.9rem'}}>Manage top scorers and assists for the Home page.</p>
           </div>
+
+          <div className="admin-card span-2" style={{cursor: 'pointer', textAlign: 'center', transition: 'all 0.3s ease', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)'}} onClick={() => setActiveView('apiSync')} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
+            <h2 className="admin-card-title" style={{fontSize: '1.5rem', marginBottom: '1rem', color: '#3b82f6'}}>
+              API Sync Controls
+            </h2>
+            <p className="text-muted" style={{fontSize: '0.9rem'}}>Force manual updates for Tables, Fixtures, and Stats if automatic cron jobs fail.</p>
+          </div>
         </div>
       </div>
     );
@@ -654,6 +661,80 @@ export default function AdminDashboard() {
         </div>
         <div className="admin-card" style={{textAlign: 'center', padding: '3rem'}}>
           <p className="text-muted">Live fixtures editor coming soon...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeView === 'apiSync') {
+    const handleManualSync = async (endpoint) => {
+      showStatus('success', `Starting sync for ${endpoint}... Please wait.`);
+      try {
+        const response = await fetch(`/.netlify/functions/${endpoint}`);
+        const result = await response.json();
+        
+        if (response.ok) {
+          showStatus('success', `Success: ${result.message}`);
+          await fetchAdminData();
+        } else {
+          showStatus('error', `Failed: ${result.error || 'Rate limit or server error'}`);
+        }
+      } catch (err) {
+        console.error(err);
+        showStatus('error', `Network error while syncing ${endpoint}.`);
+      }
+    };
+
+    return (
+      <div className="admin-container">
+        <div className="admin-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div>
+            <h1 className="admin-title">API Sync Controls</h1>
+            <p className="text-muted">Manually trigger backend updates from Football-Data.org.</p>
+          </div>
+          <button className="btn btn-outline" onClick={() => setActiveView('hub')}>Back to Hub</button>
+        </div>
+
+        {saveStatus && (
+          <div className={`admin-alert ${saveStatus.type === 'success' ? 'alert-success' : 'alert-error'}`} style={{marginBottom: '2rem'}}>
+            {saveStatus.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+            {saveStatus.msg}
+          </div>
+        )}
+
+        <div className="admin-grid" style={{gridTemplateColumns: '1fr', maxWidth: '600px', margin: '0 auto'}}>
+          <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div>
+              <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Standings</h3>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates League Tables for all 6 leagues.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => handleManualSync('syncStandings')}>Sync Now</button>
+          </div>
+
+          <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div>
+              <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Schedules</h3>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Fixtures & History for all 6 leagues.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => handleManualSync('syncSchedules')}>Sync Now</button>
+          </div>
+
+          <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div>
+              <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Player Stats</h3>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Top Scorers for all 6 leagues.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => handleManualSync('syncStats')}>Sync Now</button>
+          </div>
+          
+          <div className="card admin-card" style={{backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', marginTop: '1rem'}}>
+             <h3 style={{color: '#ef4444', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+               <AlertCircle size={18} /> Important Note
+             </h3>
+             <p className="text-muted" style={{fontSize: '0.9rem'}}>
+               The Football-Data.org API strictly limits us to <strong>10 requests per minute</strong>. If you click these buttons too quickly, the syncs will fail due to rate limits. Wait at least 60 seconds between syncing different categories.
+             </p>
+          </div>
         </div>
       </div>
     );
