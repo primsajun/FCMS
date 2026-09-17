@@ -94,9 +94,11 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
       league_id: leagueId,
       match_date: matchDateStr,
       match_time: matchTimeStr,
-      home_team_id: 0, home_team_name: ourHomeName,
+      home_team_id: match.homeTeam.id,
+      home_team_name: ourHomeName,
       home_team_logo: homeTeamLogo,
-      away_team_id: 0, away_team_name: ourAwayName,
+      away_team_id: match.awayTeam.id,
+      away_team_name: ourAwayName,
       away_team_logo: awayTeamLogo,
       home_goals: homeGoals,
       away_goals: awayGoals

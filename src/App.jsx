@@ -630,8 +630,10 @@ function History({ fixturesData, isLoadingFixtures }) {
   const groupedFixtures = React.useMemo(() => {
     if (!fixturesData) return {};
 
-    // Filter to ONLY completed matches
-    const completedFixtures = fixturesData.filter(f => f.goals && f.goals.home !== null);
+      // Filter to ONLY completed matches and reverse to show newest first
+      const completedFixtures = [...fixturesData]
+        .filter(f => f.goals && f.goals.home !== null)
+        .reverse();
     
     const filteredFixtures = activeLeague === 'all' 
       ? completedFixtures 
