@@ -31,6 +31,9 @@ export default function AdminDashboard() {
   // Audit logs state
   const [auditLogs, setAuditLogs] = useState([]);
 
+  // API Sync state
+  const [syncTargetLeague, setSyncTargetLeague] = useState('all');
+
   // Scheduler states
   const [schedLeague, setSchedLeague] = useState(39);
   const [schedHome, setSchedHome] = useState('');
@@ -668,9 +671,14 @@ export default function AdminDashboard() {
 
   if (activeView === 'apiSync') {
     const handleManualSync = async (endpoint) => {
-      showStatus('success', `Starting sync for ${endpoint}... Please wait.`);
+      const targetStr = syncTargetLeague === 'all' ? 'ALL leagues' : `League ID: ${syncTargetLeague}`;
+      showStatus('success', `Starting sync for ${endpoint} (${targetStr})... Please wait.`);
       try {
-        const response = await fetch(`/.netlify/functions/${endpoint}`);
+        const url = syncTargetLeague === 'all' 
+          ? `/.netlify/functions/${endpoint}`
+          : `/.netlify/functions/${endpoint}?league=${syncTargetLeague}`;
+          
+        const response = await fetch(url);
         const result = await response.json();
         
         if (response.ok) {
@@ -703,10 +711,27 @@ export default function AdminDashboard() {
         )}
 
         <div className="admin-grid" style={{gridTemplateColumns: '1fr', maxWidth: '600px', margin: '0 auto'}}>
+          
+          <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--bg-secondary)'}}>
+            <div>
+              <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Target League</h3>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Select a specific league to avoid API rate limits.</p>
+            </div>
+            <select className="form-input" style={{width: '200px'}} value={syncTargetLeague} onChange={(e) => setSyncTargetLeague(e.target.value)}>
+              <option value="all">All Leagues</option>
+              <option value="39">Premier League</option>
+              <option value="140">La Liga</option>
+              <option value="2">Champions League</option>
+              <option value="78">Bundesliga</option>
+              <option value="135">Serie A</option>
+              <option value="61">Ligue 1</option>
+            </select>
+          </div>
+
           <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <div>
               <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Standings</h3>
-              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates League Tables for all 6 leagues.</p>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates League Tables.</p>
             </div>
             <button className="btn btn-primary" onClick={() => handleManualSync('syncStandings')}>Sync Now</button>
           </div>
@@ -714,7 +739,7 @@ export default function AdminDashboard() {
           <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <div>
               <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Schedules</h3>
-              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Fixtures & History for all 6 leagues.</p>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Fixtures & History.</p>
             </div>
             <button className="btn btn-primary" onClick={() => handleManualSync('syncSchedules')}>Sync Now</button>
           </div>
@@ -722,7 +747,7 @@ export default function AdminDashboard() {
           <div className="card admin-card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <div>
               <h3 style={{fontSize: '1.2rem', marginBottom: '0.25rem'}}>Sync Player Stats</h3>
-              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Top Scorers for all 6 leagues.</p>
+              <p className="text-muted" style={{fontSize: '0.9rem'}}>Updates Top Scorers.</p>
             </div>
             <button className="btn btn-primary" onClick={() => handleManualSync('syncStats')}>Sync Now</button>
           </div>

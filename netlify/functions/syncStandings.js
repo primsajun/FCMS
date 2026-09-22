@@ -126,11 +126,25 @@ export const handler = async (event, context) => {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
   try {
-    await syncFootballDataStandings('PL', 39, 'Premier League');
-    await syncFootballDataStandings('PD', 140, 'La Liga');
-    await syncFootballDataStandings('BL1', 78, 'Bundesliga');
-    await syncFootballDataStandings('SA', 135, 'Serie A');
-    await syncFootballDataStandings('FL1', 61, 'Ligue 1');
+    const leagueParam = event.queryStringParameters && event.queryStringParameters.league;
+    
+    const ALL_LEAGUES = [
+      { code: 'PL', id: 39, name: 'Premier League' },
+      { code: 'PD', id: 140, name: 'La Liga' },
+      { code: 'CL', id: 2, name: 'Champions League' },
+      { code: 'BL1', id: 78, name: 'Bundesliga' },
+      { code: 'SA', id: 135, name: 'Serie A' },
+      { code: 'FL1', id: 61, name: 'Ligue 1' }
+    ];
+
+    const leaguesToSync = leagueParam 
+      ? ALL_LEAGUES.filter(l => l.code === leagueParam || l.id.toString() === leagueParam)
+      : ALL_LEAGUES;
+
+    for (const league of leaguesToSync) {
+      await syncFootballDataStandings(league.code, league.id, league.name);
+    }
+
     return { statusCode: 200, body: JSON.stringify({ message: "Standings sync successful" }) };
   } catch (err) {
     console.error("Function error:", err);

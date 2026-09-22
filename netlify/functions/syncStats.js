@@ -80,13 +80,18 @@ export const handler = async (event, context) => {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
   console.log('--- STARTING FOOTBALL-DATA.ORG PLAYER STATS SYNC ---');
-  
-  try {
-    let allRecords = [];
-    for (const league of LEAGUES) {
-      const records = await syncLeagueStats(league.code, league.name); 
-      allRecords = allRecords.concat(records);
-    }
+    try {
+      let allRecords = [];
+      const leagueParam = event.queryStringParameters && event.queryStringParameters.league;
+
+      const leaguesToSync = leagueParam 
+        ? LEAGUES.filter(l => l.code === leagueParam || l.name === leagueParam || l.name.toUpperCase().includes(leagueParam.toUpperCase()))
+        : LEAGUES;
+
+      for (const league of leaguesToSync) {
+        const records = await syncLeagueStats(league.code, league.name); 
+        allRecords = allRecords.concat(records);
+      }
 
     if (allRecords.length === 0) {
       console.log('No stats found to insert.');

@@ -135,14 +135,27 @@ export const handler = async (event, context) => {
   } catch (err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
-  try {
-    await syncFootballDataSchedules('PL', 39, 'Premier League');
-    await syncFootballDataSchedules('PD', 140, 'La Liga');
-    await syncFootballDataSchedules('CL', 2, 'Champions League');
-    await syncFootballDataSchedules('BL1', 78, 'Bundesliga');
-    await syncFootballDataSchedules('SA', 135, 'Serie A');
-    await syncFootballDataSchedules('FL1', 61, 'Ligue 1');
-    return { statusCode: 200, body: JSON.stringify({ message: "Schedules sync successful" }) };
+    try {
+      const leagueParam = event.queryStringParameters && event.queryStringParameters.league;
+      
+      const ALL_LEAGUES = [
+        { code: 'PL', id: 39, name: 'Premier League' },
+        { code: 'PD', id: 140, name: 'La Liga' },
+        { code: 'CL', id: 2, name: 'Champions League' },
+        { code: 'BL1', id: 78, name: 'Bundesliga' },
+        { code: 'SA', id: 135, name: 'Serie A' },
+        { code: 'FL1', id: 61, name: 'Ligue 1' }
+      ];
+
+      const leaguesToSync = leagueParam 
+        ? ALL_LEAGUES.filter(l => l.code === leagueParam || l.id.toString() === leagueParam)
+        : ALL_LEAGUES;
+
+      for (const league of leaguesToSync) {
+        await syncFootballDataSchedules(league.code, league.id, league.name);
+      }
+
+      return { statusCode: 200, body: JSON.stringify({ message: "Schedules sync successful" }) };
   } catch (err) {
     console.error("Function error:", err);
     return { statusCode: 500, body: "Function execution error" };
