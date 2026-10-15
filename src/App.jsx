@@ -757,16 +757,74 @@ function History({ fixturesData, isLoadingFixtures }) {
   );
 }
 
+const TEAM_NAME_ALIASES = {
+  'mancity': 'manchestercity',
+  'manunited': 'manchesterunited',
+  'spurs': 'tottenham',
+  'nottmforest': 'nottinghamforest',
+  'wolves': 'wolverhampton',
+  'psg': 'parissaintgermain',
+  'intermilan': 'inter',
+  'internazionale': 'inter',
+  'acmilan': 'milan',
+  'sporting': 'sportingcp',
+  'sportingclube': 'sportingcp',
+  'bvb': 'borussiadortmund',
+  'dortmund': 'borussiadortmund',
+  'bayern': 'bayernmunchen',
+  'leverkusen': 'bayerleverkusen',
+  'athletic': 'athleticclub',
+  'atletico': 'atleticomadrid',
+  'osasuna': 'caosasuna',
+  'celta': 'celtavigo',
+  'sociedad': 'realsociedad',
+  'betis': 'realbetis',
+  'racing': 'realracingclubdesantander',
+  'deportivo': 'rcdeportivolacoruna',
+  'rennais': 'rennes',
+  'troyes': 'estactroyes'
+};
+
+function normalizeTeamName(s) {
+  if (!s) return '';
+  let c = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/\b(fc|cf|afc|sc|ud|rcd|rc|cd|ca|de|the|club|balompie|calcio|sad|stade|sco|ac)\b/g, '')
+    .replace(/[^a-z0-9]/g, '')
+    .trim();
+  for (const [k, v] of Object.entries(TEAM_NAME_ALIASES)) {
+    if (c === k || c.includes(k)) return v;
+  }
+  return c;
+}
+
+function isNameMatch(n1, n2) {
+  if (!n1 || !n2) return false;
+  const a = normalizeTeamName(n1);
+  const b = normalizeTeamName(n2);
+  if (!a || !b) return false;
+  return a === b || a.includes(b) || b.includes(a);
+}
+
 // --- TEAMS COMPONENT (Directory) ---
 function Teams({ onTeamClick, standingsData = {} }) {
   const [expandedLeague, setExpandedLeague] = useState(null);
 
-  // Use dynamic DB data first, fallback to PREDEFINED_TEAMS
+  // Merge dynamic DB data with PREDEFINED_TEAMS ensuring api_team_id points to team_details
   const getTeamsForLeague = (leagueId) => {
-    if (standingsData && standingsData[leagueId] && standingsData[leagueId].length > 0) {
-      return [...standingsData[leagueId]].sort((a,b) => a.team_name.localeCompare(b.team_name));
+    const predefinedList = PREDEFINED_TEAMS.filter(t => t.league_id === leagueId);
+    if (!standingsData || !standingsData[leagueId] || standingsData[leagueId].length === 0) {
+      return predefinedList.sort((a,b) => a.team_name.localeCompare(b.team_name));
     }
-    return PREDEFINED_TEAMS.filter(t => t.league_id === leagueId).sort((a,b) => a.team_name.localeCompare(b.team_name));
+    
+    // Map standings data to ensure api_team_id matches team_details (via PREDEFINED_TEAMS)
+    const list = standingsData[leagueId].map(team => {
+      const match = predefinedList.find(p => isNameMatch(p.team_name, team.team_name));
+      return {
+        ...team,
+        api_team_id: match ? match.api_team_id : team.api_team_id
+      };
+    });
+    return list.sort((a,b) => a.team_name.localeCompare(b.team_name));
   };
 
   const premierLeagueTeams = getTeamsForLeague(39);
@@ -809,7 +867,7 @@ function Teams({ onTeamClick, standingsData = {} }) {
                 <h3 className="team-card-name">{team.team_name}</h3>
                 <span className="team-card-stadium" style={{fontSize: '0.75rem'}}>ID: {team.api_team_id}</span>
               </div>
-              <button className="btn btn-blue view-squad-btn" onClick={() => onTeamClick(team.api_team_id)}>View Squad &rarr;</button>
+              <button className="btn btn-blue view-squad-btn" onClick={() => onTeamClick(team.api_team_id, team.team_name)}>View Squad &rarr;</button>
             </div>
           ))}
         </div>
@@ -840,7 +898,7 @@ function Teams({ onTeamClick, standingsData = {} }) {
 }
 
 // --- TEAM DETAILS COMPONENT ---
-function TeamDetails({ teamId, onBack }) {
+function TeamDetails({ teamId, teamName, onBack }) {
   const [team, setTeam] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -848,25 +906,46 @@ function TeamDetails({ teamId, onBack }) {
     const fetchTeam = async () => {
       setIsLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('team_details')
-          .select('*')
-          .eq('api_team_id', teamId)
-          .single();
+        let teamData = null;
 
-        if (error) {
-          console.error("Error fetching team details:", error);
-        } else {
-          setTeam(data);
+        // 1. Try finding by api_team_id
+        if (teamId) {
+          const { data } = await supabase
+            .from('team_details')
+            .select('*')
+            .eq('api_team_id', teamId);
+
+          if (data && data.length > 0) {
+            // Verify name match to prevent wrong team squad display from ID collision
+            const match = teamName 
+              ? data.find(d => isNameMatch(d.name, teamName)) 
+              : data[0];
+            if (match) {
+              teamData = match;
+            }
+          }
         }
+
+        // 2. If not found or ID mismatch, fallback to finding by name in team_details
+        if (!teamData && teamName) {
+          const { data: allTeams } = await supabase
+            .from('team_details')
+            .select('*');
+
+          if (allTeams) {
+            teamData = allTeams.find(t => isNameMatch(t.name, teamName));
+          }
+        }
+
+        setTeam(teamData);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching team details:", err);
       } finally {
         setIsLoading(false);
       }
     };
     fetchTeam();
-  }, [teamId]);
+  }, [teamId, teamName]);
 
   if (isLoading) {
     return (
@@ -889,9 +968,8 @@ function TeamDetails({ teamId, onBack }) {
           <ChevronLeft size={16} /> Back to Directory
         </button>
         <div style={{padding: '4rem', textAlign: 'center', color: 'var(--text-muted)'}}>
-          <h2 style={{color: '#fff', marginBottom: '1rem'}}>Team Data Not Synced</h2>
-          <p>This team's data hasn't been synced from API-Sports to Supabase yet.</p>
-          <p>Run the sync script for team ID {teamId} to populate this team's squad.</p>
+          <h2 style={{color: '#fff', marginBottom: '1rem'}}>Team Squad Not Synced</h2>
+          <p>{teamName || 'This team'}'s squad has not been synced from the sports API to the database yet.</p>
         </div>
       </div>
     );
@@ -1246,6 +1324,9 @@ function App() {
   const [selectedTeamId, setSelectedTeamId] = useState(() => {
     return sessionStorage.getItem('fcms_selected_team') || null;
   });
+  const [selectedTeamName, setSelectedTeamName] = useState(() => {
+    return sessionStorage.getItem('fcms_selected_team_name') || null;
+  });
   const [selectedMatchId, setSelectedMatchId] = useState(() => {
     return sessionStorage.getItem('fcms_selected_match') || null;
   });
@@ -1467,9 +1548,11 @@ function App() {
     };
   }, []);
 
-  const handleTeamClick = (teamId) => {
+  const handleTeamClick = (teamId, teamName) => {
     setSelectedTeamId(teamId);
+    setSelectedTeamName(teamName);
     sessionStorage.setItem('fcms_selected_team', teamId);
+    if (teamName) sessionStorage.setItem('fcms_selected_team_name', teamName);
     setCurrentPage('team_details');
   };
 
@@ -1481,7 +1564,9 @@ function App() {
 
   const handleBackToTeams = () => {
     setSelectedTeamId(null);
+    setSelectedTeamName(null);
     sessionStorage.removeItem('fcms_selected_team');
+    sessionStorage.removeItem('fcms_selected_team_name');
     setCurrentPage('teams');
   };
 
@@ -1585,7 +1670,7 @@ function App() {
           />
         )}
         {currentPage === 'teams' && <Teams onTeamClick={handleTeamClick} standingsData={standingsData} />}
-        {currentPage === 'team_details' && <TeamDetails teamId={selectedTeamId} onBack={handleBackToTeams} />}
+        {currentPage === 'team_details' && <TeamDetails teamId={selectedTeamId} teamName={selectedTeamName} onBack={handleBackToTeams} />}
         {currentPage === 'match_details' && <MatchDetails matchId={selectedMatchId} onBack={handleBackToLiveScores} />}
         {currentPage === 'admin' && <AdminDashboard />}
         {currentPage === 'tables' && <FullTables standingsData={standingsData} />}
