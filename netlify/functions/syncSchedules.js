@@ -69,6 +69,8 @@ async function syncFootballDataSchedules(compCode, leagueId, leagueName) {
   const recordsToInsert = [];
   
   for (const match of matches) {
+    // Skip cancelled matches
+    if (match.status === 'CANCELLED') continue;
     const fdHomeName = match.homeTeam.name;
     const fdAwayName = match.awayTeam.name;
     
